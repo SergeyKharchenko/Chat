@@ -3,8 +3,8 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Threading;
 using System.Web.Mvc;
+using Entities;
 using WebMatrix.WebData;
-using Chat.Models;
 
 namespace Chat.Filters
 {
@@ -25,11 +25,11 @@ namespace Chat.Filters
         {
             public SimpleMembershipInitializer()
             {
-                Database.SetInitializer<UsersContext>(null);
+                Database.SetInitializer<ChatContext>(null);
 
                 try
                 {
-                    using (var context = new UsersContext())
+                    using (var context = new ChatContext())
                     {
                         if (!context.Database.Exists())
                         {

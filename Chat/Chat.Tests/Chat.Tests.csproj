@@ -102,7 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
@@ -116,7 +115,7 @@
       <Name>Chat</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entities\Entities.csproj">
-      <Project>{ba89d671-1621-41d1-b0f5-5838d3dbb519}</Project>
+      <Project>{31f50c29-dbac-4eb5-92b4-85e8f5114eb8}</Project>
       <Name>Entities</Name>
     </ProjectReference>
   </ItemGroup>
