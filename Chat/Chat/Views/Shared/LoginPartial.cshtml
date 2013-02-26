@@ -1,0 +1,12 @@
+﻿<div class="login">
+    @if (ViewBag.Login != null)
+    {
+        @:Hello, @ViewBag.Login
+        @Html.ActionLink("Logout", "Logout", "Account")
+    }
+    else
+    {
+        @Html.ActionLink("Login", "Login", "Account") <br/>
+        @Html.ActionLink("Register", "Register", "Account")
+    }
+</div>

@@ -1,0 +1,22 @@
+﻿@model Chat.ViewModels.UserLogin
+
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    
+    @Html.EditorForModel()
+
+    <input type="submit" value="Login" />
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

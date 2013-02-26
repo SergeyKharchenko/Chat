@@ -1,0 +1,22 @@
+﻿@model Chat.ViewModels.UserRegistration
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>Register</h2>
+
+@using(@Html.BeginForm()){
+
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    @Html.EditorForModel()
+
+    <input type="submit" value="Register"/>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
