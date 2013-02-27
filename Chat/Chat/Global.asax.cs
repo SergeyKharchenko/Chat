@@ -1,21 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Chat.Filters;
+using Chat.Infrastructure.Concrete;
+using Entities;
+using Entities.Authorization;
+using AuthContext = Chat.Authorization.AuthContext;
 
 namespace Chat
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         protected void Application_Start()
         {
+            DependencyResolver.SetResolver(new NinjectDependencyResolver());
+
+            Database.SetInitializer(new AuthDbSeeder());
+            var context = new AuthContext();
+            context.Database.Initialize(true);
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

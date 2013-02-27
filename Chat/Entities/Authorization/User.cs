@@ -13,7 +13,5 @@ namespace Entities.Authorization
         public int UserId { get; set; }
 
         public string Login { get; set; }
-
-        public virtual ICollection<Chat> Chats { get; set; }
     }
 }

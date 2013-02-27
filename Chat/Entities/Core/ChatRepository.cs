@@ -6,9 +6,10 @@ namespace Entities.Core
     {
         private readonly ChatContext context = new ChatContext();
 
-        public IQueryable<Core.Chat> Chats
+        public IQueryable<Chat> Chats
         {
-            get { return context.Chats; }
+            get { return null; }
+            //get { return context.Chats; }
         }
 
 
