@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using Entities.Core;
 
 namespace Entities.Authorization
 {
@@ -9,5 +10,6 @@ namespace Entities.Authorization
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Record> Records { get; set; }
     }
 }

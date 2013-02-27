@@ -5,6 +5,7 @@ namespace Entities
 {
     public class ChatContext : DbContext
     {
+        /*
         public ChatContext() : base("ChatContext")
         {
         }
@@ -23,12 +24,13 @@ namespace Entities
                         .WithRequired(record => record.Chat)
                         .Map(record => record.MapKey("ChatId"));
             
-            /*
+            
             modelBuilder.Entity<User>()
                         .HasMany(user => user.Chats)
                         .WithRequired(chat => chat.Creator)
                         .Map(chat => chat.MapKey("CreatorId"));
-             */
+             
         }
+         * */
     }
 }

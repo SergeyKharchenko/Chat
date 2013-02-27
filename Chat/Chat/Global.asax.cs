@@ -11,7 +11,6 @@ using Chat.Filters;
 using Chat.Infrastructure.Concrete;
 using Entities;
 using Entities.Authorization;
-using AuthContext = Chat.Authorization.AuthContext;
 
 namespace Chat
 {

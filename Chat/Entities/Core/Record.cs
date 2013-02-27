@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Entities.Authorization;
 
 namespace Entities.Core
 {
@@ -12,6 +13,8 @@ namespace Entities.Core
         [Required]
         public string Text { get; set; }
 
-        public Core.Chat Chat { get; set; }
+        public User User { get; set; }
+
+        //public Chat Chat { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Data.Entity;
 using Chat.Filters;
+using Entities.Authorization;
+using Entities.Core;
 using WebMatrix.WebData;
-using AuthContext = Chat.Authorization.AuthContext;
+using System.Linq;
 
 namespace Chat.Infrastructure.Concrete
 {
@@ -13,6 +15,9 @@ namespace Chat.Infrastructure.Concrete
             initializeSimpleMembershipAttribute.OnActionExecuting(null);
 
             WebSecurity.CreateUserAndAccount("Sergey", "1234");
+            var user = context.Users.First();
+
+            context.Records.Add(new Record { Text = "lol", User = user });
         }
     }
 }
