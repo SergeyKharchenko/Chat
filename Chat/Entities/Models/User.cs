@@ -1,7 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Entities.Authorization
+namespace Entities.Models
 {
     [Table("User")]
     public class User
@@ -11,5 +12,8 @@ namespace Entities.Authorization
         public int UserId { get; set; }
 
         public string Login { get; set; }
+
+        public virtual ICollection<Chat> Chats { get; set; }
+        public virtual ICollection<Record> Records { get; set; }
     }
 }

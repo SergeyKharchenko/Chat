@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using Entities.Core.Abstract;
+using Entities.Models;
 
-namespace Entities.Core
+namespace Entities.Core.Concrete
 {
     public class ChatRepository : IChatRepository
     {
