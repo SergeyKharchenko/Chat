@@ -172,7 +172,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Abstract\IAuthorizationService.cs" />
-    <Compile Include="Infrastructure\Concrete\AuthDbSeeder.cs" />
+    <Compile Include="Infrastructure\Concrete\DbSeeder.cs" />
     <Compile Include="Infrastructure\Concrete\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Concrete\WebSecurityAuthorizationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

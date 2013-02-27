@@ -23,7 +23,7 @@ namespace Chat.Filters
             {
                 try
                 {
-                    WebSecurity.InitializeDatabaseConnection("AuthContext", "User", "UserId", "Login",
+                    WebSecurity.InitializeDatabaseConnection("ChatContext", "User", "UserId", "Login",
                                                              autoCreateTables: true);
                 }
                 catch (Exception ex)

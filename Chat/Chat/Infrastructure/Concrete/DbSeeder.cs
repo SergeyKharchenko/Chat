@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using Chat.Filters;
+using Entities;
 using Entities.Authorization;
 using Entities.Core;
 using WebMatrix.WebData;
@@ -7,9 +8,9 @@ using System.Linq;
 
 namespace Chat.Infrastructure.Concrete
 {
-    public class AuthDbSeeder : DropCreateDatabaseAlways<AuthContext>
+    public class DbSeeder : DropCreateDatabaseAlways<ChatContext>
     {
-        protected override void Seed(AuthContext context)
+        protected override void Seed(ChatContext context)
         {       
             var initializeSimpleMembershipAttribute = new InitializeSimpleMembershipAttribute();
             initializeSimpleMembershipAttribute.OnActionExecuting(null);
