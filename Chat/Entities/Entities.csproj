@@ -46,12 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authorization\User.cs" />
-    <Compile Include="ChatContext.cs" />
-    <Compile Include="Core\Chat.cs" />
-    <Compile Include="Core\ChatRepository.cs" />
-    <Compile Include="Core\IChatRepository.cs" />
-    <Compile Include="Core\Record.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Core\Concrete\ChatContext.cs" />
+    <Compile Include="Models\Chat.cs" />
+    <Compile Include="Core\Concrete\ChatRepository.cs" />
+    <Compile Include="Core\Abstract\IChatRepository.cs" />
+    <Compile Include="Models\Record.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

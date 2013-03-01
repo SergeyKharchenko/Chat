@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Entities.Authorization;
 
-namespace Entities.Core
+namespace Entities.Models
 {
+    [Table("Chat")]
     public class Chat
     {
         [Key]
@@ -16,9 +16,10 @@ namespace Entities.Core
         [StringLength(50, ErrorMessage = "The {0} must not be more than 50 characters")]
         public string Title { get; set; }
 
+        public int CreatorId { get; set; }
         public virtual User Creator { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<User> Participants { get; set; }
 
         public virtual ICollection<Record> Records { get; set; }
 

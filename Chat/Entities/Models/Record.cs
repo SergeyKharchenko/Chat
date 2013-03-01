@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Entities.Core
+namespace Entities.Models
 {
+    [Table("Record")]
     public class Record
     {
         [Key]
@@ -12,6 +13,10 @@ namespace Entities.Core
         [Required]
         public string Text { get; set; }
 
-        public Core.Chat Chat { get; set; }
+        public int CreatorId { get; set; }
+        public User Creator { get; set; }
+
+        public int ChatId { get; set; }
+        public Chat Chat { get; set; }
     }
 }
