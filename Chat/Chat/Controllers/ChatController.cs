@@ -17,7 +17,7 @@ namespace Chat.Controllers
             this.chatRepository = chatRepository;
         }
 
-        public ViewResult Index()
+        public ViewResult List()
         {
             return View(chatRepository.Chats);
         }

@@ -70,7 +70,7 @@ namespace Chat.Tests
         {                        
             var chatController = new ChatController(mock.Object);
             
-            var view = chatController.Index();
+            var view = chatController.List();
 
             Assert.IsInstanceOfType(view, typeof(ViewResult));
             Assert.IsInstanceOfType(view.Model, typeof(IQueryable<Entities.Models.Chat>));

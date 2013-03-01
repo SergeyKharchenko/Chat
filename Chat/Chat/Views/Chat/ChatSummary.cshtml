@@ -1,0 +1,13 @@
+﻿@model Entities.Models.Chat
+
+<div class="chat-title">
+    @Model.Title
+</div>
+<div class="chat-creator">
+    @Model.Creator.Login
+</div>
+<div class="chat-last-activity">
+    <div>
+        @Html.DisplayNameFor(chat => chat.LastActivity): @Model.LastActivity
+    </div>    
+</div>

@@ -268,7 +268,8 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Chat\List.cshtml" />
+    <Content Include="Views\Chat\ChatSummary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

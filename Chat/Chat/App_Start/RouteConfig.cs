@@ -14,6 +14,12 @@ namespace Chat
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Chat",
+                url: "chat/{action}",
+                defaults: new { controller = "Chat", action = "List" }
+                );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{login}",
                 defaults: new {controller = "Account", action = "Index", login = UrlParameter.Optional}

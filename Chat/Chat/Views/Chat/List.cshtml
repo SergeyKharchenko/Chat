@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Entities.Models.Chat>
+
+@{
+    ViewBag.Title = "Chats on-line";
+}
+
+<h2>Chats on-line</h2>
+
+@foreach (var chat in Model)
+{
+    Html.RenderPartial("ChatSummary", chat);
+}
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
