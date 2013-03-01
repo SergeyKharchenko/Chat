@@ -10,10 +10,7 @@ namespace Entities.Core.Concrete
 
         public IQueryable<Chat> Chats
         {
-            get { return null; }
-            //get { return context.Chats; }
+            get { return context.Chats; }
         }
-
-
     }
 }

@@ -19,8 +19,7 @@ namespace Chat.Controllers
 
         public ViewResult Index()
         {
-            //var chats = chatRepository.Chats.ToArray();
-            return View();
+            return View(chatRepository.Chats);
         }
     }
 }
