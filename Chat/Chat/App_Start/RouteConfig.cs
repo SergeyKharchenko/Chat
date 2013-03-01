@@ -15,8 +15,8 @@ namespace Chat
 
             routes.MapRoute(
                 name: "Chat",
-                url: "chat/{action}",
-                defaults: new { controller = "Chat", action = "List" }
+                url: "chat/{action}/{id}",
+                defaults: new { controller = "Chat", action = "List", id = UrlParameter.Optional }
                 );
 
             routes.MapRoute(

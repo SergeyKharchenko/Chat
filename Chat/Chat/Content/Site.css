@@ -62,7 +62,35 @@ textarea {
 
 
 /* Custom Styles
+-----------------------------------------------------------
+-----------------------------------------------------------*/
+
+/* Authorization Styles
 -----------------------------------------------------------*/
 .login {
     float: right;
+}
+
+/* Chat Styles
+-----------------------------------------------------------*/
+.chat-container {
+    position: relative;
+    width: 30%;
+}
+
+.chat-element-container {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.chat-title {    
+    display: inline;
+}
+
+.chat-last-activity {    
+}
+
+.chat-actions {
+    display: inline;
+    padding-left: 10px;
 }

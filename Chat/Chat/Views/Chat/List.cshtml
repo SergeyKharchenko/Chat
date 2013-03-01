@@ -6,10 +6,12 @@
 
 <h2>Chats on-line</h2>
 
-@foreach (var chat in Model)
-{
-    Html.RenderPartial("ChatSummary", chat);
-}
+<div class="chat-container">
+    @foreach (var chat in Model)
+    {
+        Html.RenderPartial("ChatSummary", chat);
+    }
+</div>
 
 <p>
     @Html.ActionLink("Create New", "Create")
