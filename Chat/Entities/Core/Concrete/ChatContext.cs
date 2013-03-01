@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using Entities.Models;
 
 namespace Entities.Core.Concrete
@@ -18,23 +19,29 @@ namespace Entities.Core.Concrete
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            return;
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
+            modelBuilder.Entity<Record>()
+                        .HasRequired(record => record.Chat)
+                        .WithMany(chat => chat.Records)
+                        .HasForeignKey(record => record.ChatId);
+            
             modelBuilder.Entity<Chat>()
-                        .HasMany(chat => chat.Records)
-                        .WithRequired(record => record.Chat)
-                        .Map(record => record.MapKey("ChatId"));
-            
+                        .HasRequired(chat => chat.Creator)
+                        .WithMany(user => user.CreatedChats)
+                        .HasForeignKey(chat => chat.CreatorId);
+
+            modelBuilder.Entity<Record>()
+                        .HasRequired(record => record.Creator)
+                        .WithMany(user => user.Records)
+                        .HasForeignKey(record => record.CreatorId);
+
             modelBuilder.Entity<User>()
-                        .HasMany(user => user.Chats)
-                        .WithRequired(chat => chat.Creator)
-                        .Map(chat => chat.MapKey("ChatCreatorId"));
-            
-            modelBuilder.Entity<User>()
-                        .HasMany(user => user.Records)
-                        .WithRequired(record => record.Creator)
-                        .Map(chat => chat.MapKey("RecordCreatorId"))
-                        .WillCascadeOnDelete(false);
+                        .HasMany(user => user.ChatPartisipants)
+                        .WithMany(chat => chat.Participants)
+                        .Map(info => info.MapLeftKey("UserId")
+                                         .MapRightKey("ChatId")
+                                         .ToTable("Participants"));
         }
     }
 }

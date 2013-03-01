@@ -13,8 +13,10 @@ namespace Entities.Models
         [Required]
         public string Text { get; set; }
 
+        public int CreatorId { get; set; }
         public User Creator { get; set; }
 
+        public int ChatId { get; set; }
         public Chat Chat { get; set; }
     }
 }

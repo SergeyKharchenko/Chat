@@ -16,9 +16,10 @@ namespace Entities.Models
         [StringLength(50, ErrorMessage = "The {0} must not be more than 50 characters")]
         public string Title { get; set; }
 
+        public int CreatorId { get; set; }
         public virtual User Creator { get; set; }
 
-        //public virtual ICollection<User> Participants { get; set; }
+        public virtual ICollection<User> Participants { get; set; }
 
         public virtual ICollection<Record> Records { get; set; }
 
