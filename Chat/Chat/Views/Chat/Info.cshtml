@@ -1,4 +1,4 @@
-﻿@model Entities.Models.Chat
+﻿@model Chat.ViewModels.ChatInfo
 
 @{
     ViewBag.Title = Model.Title + " Info";
@@ -7,7 +7,7 @@
 <h2>@Model.Title Info</h2>
 
 <p>
-    Was created by <b>@Model.Creator.Login</b><br/>
+    Was created by <b>@Model.Creator</b><br/>
     Last activity: @Html.DisplayFor(chat => chat.LastActivity)
 </p>
 
@@ -17,7 +17,7 @@
         @foreach (var member in Model.Members)
         {
             <li>
-                @member.Login
+                @member
             </li>
         }
         </ul>
@@ -26,11 +26,16 @@
 <div>
     Last records:
     <ul class="chat-records-list">
-        @foreach (var record in Model.Records.Reverse().Take(3).Reverse())
+        @foreach (var record in Model.Records)
         {
             <li>
                 @record.Creator.Login: @record.Text
             </li>
         }
     </ul>
+</div>
+
+<div>
+    @Html.ActionLink("Back to chat list", "List")<br/>
+    @Html.ActionLink("Join", "Join", new {Model.Id})
 </div>

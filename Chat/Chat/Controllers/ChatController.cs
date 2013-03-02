@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Chat.ViewModels;
 using Entities.Core;
 using Entities.Core.Abstract;
 
@@ -25,7 +26,21 @@ namespace Chat.Controllers
         public ViewResult Info(int id)
         {
             var chat = chatRepository.GetChatById(id);
-            return View(chat);
+            var chatInfo = new ChatInfo
+                {
+                    Id = chat.ChatId,
+                    Title = chat.Title,
+                    Creator = chat.Creator.Login,
+                    LastActivity = chat.LastActivity,
+                    Members = (from member in chat.Members select member.Login).ToArray(),
+                    Records = chat.Records.Reverse().Take(3).Reverse().ToArray()
+                };
+            return View(chatInfo);
+        }
+
+        public ActionResult Join(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

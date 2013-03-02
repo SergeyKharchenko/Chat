@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web.Mvc;
 using Chat.Controllers;
+using Chat.ViewModels;
 using Entities.Core.Abstract;
 using Entities.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -87,10 +88,10 @@ namespace Chat.Tests
         {
             var chatController = new ChatController(mock.Object);
 
-            var chat = chatController.Info(1).Model as Entities.Models.Chat;
+            var chatInfo = chatController.Info(1).Model as ChatInfo;
 
-            Assert.AreEqual(chat.ChatId, 1);
-            Assert.AreEqual(chat.Members.Count, 4);
+            Assert.AreEqual(chatInfo.Title, "Sergey's chat");
+            Assert.AreEqual(chatInfo.Members.Length, 4);
         }
 
         [TestMethod]
