@@ -12,5 +12,10 @@ namespace Entities.Core.Concrete
         {
             get { return context.Chats; }
         }
+
+        public Chat GetChatById(int id)
+        {
+            return context.Chats.Find(id);
+        }
     }
 }
