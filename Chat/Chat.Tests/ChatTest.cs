@@ -66,7 +66,7 @@ namespace Chat.Tests
         }
 
         [TestMethod]
-        public void ShowAllChatsTest()
+        public void CanShowAllChatsTest()
         {                        
             var chatController = new ChatController(mock.Object);
             
@@ -74,8 +74,6 @@ namespace Chat.Tests
 
             Assert.IsInstanceOfType(view, typeof(ViewResult));
             Assert.IsInstanceOfType(view.Model, typeof(IQueryable<Entities.Models.Chat>));
-            Assert.AreEqual((view.Model as IEnumerable<Entities.Models.Chat>).Count(), 3);
-            Assert.AreEqual((view.Model as IEnumerable<Entities.Models.Chat>).First().Title, "Sergey's chat");
         }
     }
 }
