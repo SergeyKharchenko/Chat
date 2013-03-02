@@ -1,0 +1,36 @@
+﻿@model Entities.Models.Chat
+
+@{
+    ViewBag.Title = Model.Title + " Info";
+}
+
+<h2>@Model.Title Info</h2>
+
+<p>
+    Was created by <b>@Model.Creator.Login</b><br/>
+    Last activity: @Html.DisplayFor(chat => chat.LastActivity)
+</p>
+
+<div class="chat-members">
+    Members:
+    <ul class="chat-members-list">
+        @foreach (var member in Model.Members)
+        {
+            <li>
+                @member.Login
+            </li>
+        }
+        </ul>
+</div>
+
+<div>
+    Last records:
+    <ul class="chat-records-list">
+        @foreach (var record in Model.Records.Reverse().Take(3).Reverse())
+        {
+            <li>
+                @record.Creator.Login: @record.Text
+            </li>
+        }
+    </ul>
+</div>

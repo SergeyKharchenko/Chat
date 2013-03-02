@@ -87,10 +87,19 @@ textarea {
     display: inline;
 }
 
-.chat-last-activity {    
-}
-
 .chat-actions {
     display: inline;
     padding-left: 10px;
+}
+
+.chat-members {
+    padding-bottom: 20px;
+}
+
+.chat-members-list {
+    list-style-type: circle;
+}
+
+.chat-records-list {
+    list-style-type: square;
 }

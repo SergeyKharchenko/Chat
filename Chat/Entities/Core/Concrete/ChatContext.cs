@@ -37,11 +37,11 @@ namespace Entities.Core.Concrete
                         .HasForeignKey(record => record.CreatorId);
 
             modelBuilder.Entity<User>()
-                        .HasMany(user => user.ChatPartisipants)
-                        .WithMany(chat => chat.Participants)
+                        .HasMany(user => user.ChatMembers)
+                        .WithMany(chat => chat.Members)
                         .Map(info => info.MapLeftKey("UserId")
                                          .MapRightKey("ChatId")
-                                         .ToTable("Participants"));
+                                         .ToTable("Members"));
         }
     }
 }

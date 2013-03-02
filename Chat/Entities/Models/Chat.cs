@@ -22,7 +22,7 @@ namespace Entities.Models
         public int CreatorId { get; set; }
         public virtual User Creator { get; set; }
 
-        public virtual ICollection<User> Participants { get; set; }
+        public virtual ICollection<User> Members { get; set; }
 
         public virtual ICollection<Record> Records { get; set; }
 

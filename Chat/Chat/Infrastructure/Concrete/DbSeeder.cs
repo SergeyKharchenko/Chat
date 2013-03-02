@@ -45,7 +45,7 @@ namespace Chat.Infrastructure.Concrete
                             Creator = sergey,
                             LastActivity = DateTime.Now,
                             Records = new Collection<Record> {recordSergey1, recordSergey2},
-                            Participants = new Collection<User> {sergey, igor, andrey, maxim}
+                            Members = new Collection<User> {sergey, igor, andrey, maxim}
                         },
                     new Entities.Models.Chat
                         {
@@ -53,7 +53,7 @@ namespace Chat.Infrastructure.Concrete
                             Creator = igor,
                             LastActivity = DateTime.Now,
                             Records = new Collection<Record> {recordIgor1},
-                            Participants = new Collection<User> {sergey, igor}
+                            Members = new Collection<User> {sergey, igor}
                         },
                     new Entities.Models.Chat
                         {
@@ -61,7 +61,7 @@ namespace Chat.Infrastructure.Concrete
                             Creator = andrey,
                             LastActivity = DateTime.Now,
                             Records = new Collection<Record> {recordAndrey2, recordMaxim1, recordAndrey1},
-                            Participants = new Collection<User> {sergey, andrey, maxim}
+                            Members = new Collection<User> {sergey, andrey, maxim}
                         }
                 };
             

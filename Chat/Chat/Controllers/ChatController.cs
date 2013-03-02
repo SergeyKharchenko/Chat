@@ -21,5 +21,11 @@ namespace Chat.Controllers
         {
             return View(chatRepository.Chats);
         }
+
+        public ViewResult Info(int id)
+        {
+            var chat = chatRepository.GetChatById(id);
+            return View(chat);
+        }
     }
 }

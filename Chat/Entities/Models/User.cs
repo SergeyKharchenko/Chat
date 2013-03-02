@@ -18,6 +18,6 @@ namespace Entities.Models
         public virtual ICollection<Chat> CreatedChats { get; set; }
         public virtual ICollection<Record> Records { get; set; }
 
-        public virtual ICollection<Chat> ChatPartisipants { get; set; }
+        public virtual ICollection<Chat> ChatMembers { get; set; }
     }
 }

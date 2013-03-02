@@ -40,29 +40,35 @@ namespace Chat.Tests
                 {
                     new Entities.Models.Chat
                         {
+                            ChatId = 1,
                             Title = "Sergey's chat",
                             Creator = sergey,
                             LastActivity = DateTime.Now,
                             Records = new Collection<Record> {recordSergey1, recordSergey2},
-                            Participants = new Collection<User> {sergey, igor, andrey, maxim}
+                            Members = new Collection<User> {sergey, igor, andrey, maxim}
                         },
                     new Entities.Models.Chat
                         {
+                            ChatId = 2,
                             Title = "Igor's chat",
                             Creator = igor,
                             LastActivity = DateTime.Now,
                             Records = new Collection<Record> {recordIgor1},
-                            Participants = new Collection<User> {sergey, igor}
+                            Members = new Collection<User> {sergey, igor}
                         },
                     new Entities.Models.Chat
                         {
+                            ChatId = 3,
                             Title = "Andrey's chat",
                             Creator = andrey,
                             LastActivity = DateTime.Now,
                             Records = new Collection<Record> {recordAndrey2, recordMaxim1, recordAndrey1},
-                            Participants = new Collection<User> {sergey, andrey, maxim}
+                            Members = new Collection<User> {sergey, andrey, maxim}
                         }
                 }.AsQueryable);
+
+            mock.Setup(repo => repo.GetChatById(It.IsAny<int>()))
+                .Returns((int id) => mock.Object.Chats.Single(c => c.ChatId == id));
         }
 
         [TestMethod]
@@ -74,6 +80,26 @@ namespace Chat.Tests
 
             Assert.IsInstanceOfType(view, typeof(ViewResult));
             Assert.IsInstanceOfType(view.Model, typeof(IQueryable<Entities.Models.Chat>));
+        }
+
+        [TestMethod]
+        public void CanGetChatInfoByRightIdTest()
+        {
+            var chatController = new ChatController(mock.Object);
+
+            var chat = chatController.Info(1).Model as Entities.Models.Chat;
+
+            Assert.AreEqual(chat.ChatId, 1);
+            Assert.AreEqual(chat.Members.Count, 4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void CannotGetChatInfoByWrongIdTest()
+        {
+            var chatController = new ChatController(mock.Object);
+
+            chatController.Info(5);
         }
     }
 }
