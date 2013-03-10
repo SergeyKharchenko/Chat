@@ -27,15 +27,15 @@ namespace Chat.Infrastructure.Concrete
             var andrey = context.Users.First(user => user.Login == "Andrey");
             var maxim = context.Users.First(user => user.Login == "Maxim");
 
-            var recordSergey1 = new Record { Text = "Hello", Creator = sergey };
-            var recordSergey2 = new Record { Text = "world", Creator = sergey };
+            var recordSergey1 = new Record { Text = "Hello", Creator = sergey, CreationDate = DateTime.Now};
+            var recordSergey2 = new Record { Text = "world", Creator = sergey, CreationDate = DateTime.Now };
 
-            var recordIgor1 = new Record { Text = "Oh, no", Creator = igor };
+            var recordIgor1 = new Record { Text = "Oh, no", Creator = igor, CreationDate = DateTime.Now };
 
-            var recordAndrey1 = new Record { Text = "I so lonely", Creator = andrey };
-            var recordAndrey2 = new Record { Text = "Java is the best", Creator = andrey };
+            var recordAndrey1 = new Record { Text = "I so lonely", Creator = andrey, CreationDate = DateTime.Now };
+            var recordAndrey2 = new Record { Text = "Java is the best", Creator = andrey, CreationDate = DateTime.Now };
 
-            var recordMaxim1 = new Record { Text = "For C#!!!", Creator = maxim };
+            var recordMaxim1 = new Record { Text = "For C#!!!", Creator = maxim, CreationDate = DateTime.Now };
 
             var chats = new List<Entities.Models.Chat>
                 {
@@ -43,7 +43,7 @@ namespace Chat.Infrastructure.Concrete
                         {
                             Title = "Sergey's chat",
                             Creator = sergey,
-                            LastActivity = DateTime.Now,
+                            CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordSergey1, recordSergey2},
                             Members = new Collection<User> {sergey, igor, andrey, maxim}
                         },
@@ -51,7 +51,7 @@ namespace Chat.Infrastructure.Concrete
                         {
                             Title = "Igor's chat",
                             Creator = igor,
-                            LastActivity = DateTime.Now,
+                            CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordIgor1},
                             Members = new Collection<User> {sergey, igor}
                         },
@@ -59,7 +59,7 @@ namespace Chat.Infrastructure.Concrete
                         {
                             Title = "Andrey's chat",
                             Creator = andrey,
-                            LastActivity = DateTime.Now,
+                            CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordAndrey2, recordMaxim1, recordAndrey1},
                             Members = new Collection<User> {sergey, andrey, maxim}
                         }
@@ -67,19 +67,6 @@ namespace Chat.Infrastructure.Concrete
             
             chats.ForEach(chat => context.Chats.Add(chat));
             context.SaveChanges();
-            /*
-            foreach (var record in context.Records.Where(record => record.CreatorId == sergey.UserId))
-            {
-                context.Records.Remove(record);
-            }
-            foreach (var c in context.Chats.Where(c => chat.CreatorId == sergey.UserId))
-            {
-                context.Chats.Remove(c);
-            }
-            context.Users.Remove(sergey);
-
-            context.SaveChanges();
-             */
         }
     }
 }

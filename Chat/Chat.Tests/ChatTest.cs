@@ -27,15 +27,15 @@ namespace Chat.Tests
             var andrey = new User {Login = "Andrey"};
             var maxim = new User {Login = "Maxim"};
 
-            var recordSergey1 = new Record {Text = "Hello", Creator = sergey};
-            var recordSergey2 = new Record {Text = "world", Creator = sergey};
+            var recordSergey1 = new Record { Text = "Hello", Creator = sergey, CreationDate = DateTime.MaxValue };
+            var recordSergey2 = new Record { Text = "world", Creator = sergey, CreationDate = DateTime.MinValue };
 
-            var recordIgor1 = new Record {Text = "Oh, no", Creator = igor};
+            var recordIgor1 = new Record { Text = "Oh, no", Creator = igor, CreationDate = DateTime.Now };
 
-            var recordAndrey1 = new Record {Text = "I so lonely", Creator = andrey};
-            var recordAndrey2 = new Record {Text = "Java is the best", Creator = andrey};
+            var recordAndrey1 = new Record { Text = "I so lonely", Creator = andrey, CreationDate = DateTime.Now };
+            var recordAndrey2 = new Record { Text = "Java is the best", Creator = andrey, CreationDate = DateTime.Now };
 
-            var recordMaxim1 = new Record {Text = "For C#!!!", Creator = maxim};
+            var recordMaxim1 = new Record { Text = "For C#!!!", Creator = maxim, CreationDate = DateTime.Now };
 
             mock.Setup(repo => repo.Chats).Returns(new List<Entities.Models.Chat>
                 {
@@ -44,7 +44,7 @@ namespace Chat.Tests
                             ChatId = 1,
                             Title = "Sergey's chat",
                             Creator = sergey,
-                            LastActivity = DateTime.Now,
+                            CreatorionDate = DateTime.MinValue,
                             Records = new Collection<Record> {recordSergey1, recordSergey2},
                             Members = new Collection<User> {sergey, igor, andrey, maxim}
                         },
@@ -53,7 +53,7 @@ namespace Chat.Tests
                             ChatId = 2,
                             Title = "Igor's chat",
                             Creator = igor,
-                            LastActivity = DateTime.Now,
+                            CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordIgor1},
                             Members = new Collection<User> {sergey, igor}
                         },
@@ -62,9 +62,18 @@ namespace Chat.Tests
                             ChatId = 3,
                             Title = "Andrey's chat",
                             Creator = andrey,
-                            LastActivity = DateTime.Now,
+                            CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordAndrey2, recordMaxim1, recordAndrey1},
                             Members = new Collection<User> {sergey, andrey, maxim}
+                        },
+                    new Entities.Models.Chat
+                        {
+                            ChatId = 4,
+                            Title = "Empty chat",
+                            Creator = andrey,
+                            CreatorionDate = DateTime.MinValue,
+                            Records = new Collection<Record>(),
+                            Members = new Collection<User>()
                         }
                 }.AsQueryable);
 
@@ -101,6 +110,18 @@ namespace Chat.Tests
             var chatController = new ChatController(mock.Object);
 
             chatController.Info(5);
+        }
+
+        [TestMethod]
+        public void GetChatLastActivityTest()
+        {
+            var chatController = new ChatController(mock.Object);
+
+            var chatInfo = chatController.Info(1).Model as ChatInfo;
+            var emptyChatInfo = chatController.Info(4).Model as ChatInfo;
+
+            Assert.AreEqual(chatInfo.LastActivity, DateTime.MaxValue);
+            Assert.AreEqual(emptyChatInfo.LastActivity, DateTime.MinValue);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
 
@@ -17,10 +18,16 @@ namespace Entities.Models
 
         [HiddenInput(DisplayValue = false)]
         public int CreatorId { get; set; }
-        public User Creator { get; set; }
+        public virtual User Creator { get; set; }
+        public DateTime CreationDate { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         public int ChatId { get; set; }
         public Chat Chat { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0}: {1}", CreationDate, Text);
+        }
     }
 }

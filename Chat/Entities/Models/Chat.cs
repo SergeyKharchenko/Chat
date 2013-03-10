@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace Entities.Models
 {
@@ -22,11 +23,21 @@ namespace Entities.Models
         public int CreatorId { get; set; }
         public virtual User Creator { get; set; }
 
+        [Display(Name = "Creation date")]
+        public DateTime CreatorionDate { get; set; }
+
         public virtual ICollection<User> Members { get; set; }
 
         public virtual ICollection<Record> Records { get; set; }
 
-        [Display(Name = "Last activity")]
-        public DateTime LastActivity { get; set; }
+        public DateTime LastActivity
+        {
+            get
+            {
+                if (Records == null || Records.Count == 0)
+                    return CreatorionDate;
+                return Records.Max(record => record.CreationDate);
+            }
+        }
     }
 }
