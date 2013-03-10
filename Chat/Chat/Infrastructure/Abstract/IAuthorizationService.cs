@@ -1,4 +1,6 @@
-﻿namespace Chat.Infrastructure.Abstract
+﻿using Entities.Models;
+
+namespace Chat.Infrastructure.Abstract
 {
     public interface IAuthorizationService
     {

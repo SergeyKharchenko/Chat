@@ -29,5 +29,10 @@ namespace Entities.Core.Concrete
         {
             context.SaveChanges();
         }
+
+        public User GetUserById(int id)
+        {
+            return context.Users.Find(id);
+        }
     }
 }

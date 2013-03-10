@@ -10,5 +10,7 @@ namespace Entities.Core.Abstract
         Chat GetChatById(int id);
         void Create(Chat chat);
         void Save();
+
+        User GetUserById(int id);
     }
 }

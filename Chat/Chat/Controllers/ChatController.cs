@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -7,6 +8,7 @@ using Chat.Infrastructure.Abstract;
 using Chat.ViewModels;
 using Entities.Core;
 using Entities.Core.Abstract;
+using Entities.Models;
 using WebMatrix.WebData;
 
 namespace Chat.Controllers
@@ -55,9 +57,13 @@ namespace Chat.Controllers
         {
             if (string.IsNullOrEmpty(chat.Title))
                 return View();
+
             chat.CreatorionDate = DateTime.Now;
-            chat.CreatorId = authorizationService.GetCurrentuserId();
+            var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
+            chat.Creator = currentUser;
+            chat.Members = new Collection<User> {currentUser};
             chatRepository.Create(chat);
+
             return RedirectToAction("List");
         }
 

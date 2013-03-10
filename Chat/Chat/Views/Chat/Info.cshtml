@@ -20,19 +20,26 @@
                 @member
             </li>
         }
-        </ul>
+    </ul>
 </div>
 
-<div>
-    Last records:
-    <ul class="chat-records-list">
-        @foreach (var record in Model.Records)
-        {
-            <li>
-                @record.Creator.Login: @record.Text
-            </li>
-        }
-    </ul>
+<div class="chat-records">
+    @if (Model.Records.Length > 0)
+    {
+        @:Last records:
+        <ul class="chat-records-list">
+            @foreach (var record in Model.Records)
+            {
+                <li>
+                    @record.Creator.Login: @record.Text
+                </li>
+            }    
+        </ul>
+    }
+    else
+    {
+        @:No records here
+    }
 </div>
 
 <div>

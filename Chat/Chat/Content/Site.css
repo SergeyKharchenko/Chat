@@ -92,7 +92,7 @@ textarea {
     padding-left: 10px;
 }
 
-.chat-members {
+.chat-members, .chat-records {
     padding-bottom: 20px;
 }
 
