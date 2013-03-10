@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Entities.Core.Abstract;
 using Entities.Models;
+using System.Data.Entity.Migrations;
 
 namespace Entities.Core.Concrete
 {
@@ -16,6 +17,17 @@ namespace Entities.Core.Concrete
         public Chat GetChatById(int id)
         {
             return context.Chats.Find(id);
+        }
+
+        public void Create(Chat chat)
+        {
+            context.Chats.Add(chat);
+            Save();
+        }
+
+        public void Save()
+        {
+            context.SaveChanges();
         }
     }
 }

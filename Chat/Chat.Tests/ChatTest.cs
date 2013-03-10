@@ -123,5 +123,31 @@ namespace Chat.Tests
             Assert.AreEqual(chatInfo.LastActivity, DateTime.MaxValue);
             Assert.AreEqual(emptyChatInfo.LastActivity, DateTime.MinValue);
         }
+
+        [TestMethod]
+        public void CreateChatSuccessTest()
+        {
+            var chatController = new ChatController(mock.Object);
+            var chat = new Entities.Models.Chat {Title = "Test chat"};
+            
+            var view = chatController.Create(chat);
+
+            mock.Verify(service => service.Create(chat), Times.Once());
+            Assert.IsInstanceOfType(view, typeof(RedirectToRouteResult));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void CreateChatUnsuccessTest()
+        {
+            var chatController = new ChatController(mock.Object);            
+            var chat = new Entities.Models.Chat {Title = "Test chat"};
+            mock.Setup(service => service.Create(chat)).Throws(new ArgumentException());
+            
+            var view = chatController.Create(chat);
+
+            mock.Verify(service => service.Create(chat), Times.Once());
+            Assert.IsInstanceOfType(view, typeof(ViewResult));
+        }
     }
 }

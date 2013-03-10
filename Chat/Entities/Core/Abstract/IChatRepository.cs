@@ -8,5 +8,7 @@ namespace Entities.Core.Abstract
         IQueryable<Chat> Chats { get; }
 
         Chat GetChatById(int id);
+        void Create(Chat chat);
+        void Save();
     }
 }

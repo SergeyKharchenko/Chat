@@ -272,6 +272,7 @@
     <Content Include="Views\Chat\List.cshtml" />
     <Content Include="Views\Chat\ChatSummary.cshtml" />
     <Content Include="Views\Chat\Info.cshtml" />
+    <Content Include="Views\Chat\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
