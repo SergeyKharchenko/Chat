@@ -12,6 +12,12 @@ namespace Chat
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            
+            routes.MapRoute(
+                name: "Room",
+                url: "Chat/Room/{id}",
+                defaults: new { controller = "Chat", action = "JoinRoom", id = UrlParameter.Optional }
+                );
 
             routes.MapRoute(
                 name: "Chat",

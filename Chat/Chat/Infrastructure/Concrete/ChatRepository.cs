@@ -1,27 +1,34 @@
-﻿using System.Linq;
-using Entities.Core.Abstract;
+﻿using System.Data;
+using System.Linq;
+using Chat.Infrastructure.Abstract;
+using Entities.Core.Concrete;
 using Entities.Models;
-using System.Data.Entity.Migrations;
 
-namespace Entities.Core.Concrete
+namespace Chat.Infrastructure.Concrete
 {
     public class ChatRepository : IChatRepository
     {
         private readonly ChatContext context = new ChatContext();
 
-        public IQueryable<Chat> Chats
+        public IQueryable<Entities.Models.Chat> Chats
         {
             get { return context.Chats; }
         }
 
-        public Chat GetChatById(int id)
+        public Entities.Models.Chat GetChatById(int id)
         {
             return context.Chats.Find(id);
         }
 
-        public void Create(Chat chat)
+        public void Create(Entities.Models.Chat chat)
         {
             context.Chats.Add(chat);
+            Save();
+        }
+
+        public void Update(Entities.Models.Chat chat)
+        {
+            context.Entry(chat).State = EntityState.Modified;
             Save();
         }
 

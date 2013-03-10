@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using Entities.Core;
 using Chat.Infrastructure.Abstract;
-using Entities.Core.Abstract;
 using Entities.Core.Concrete;
 using Ninject;
 

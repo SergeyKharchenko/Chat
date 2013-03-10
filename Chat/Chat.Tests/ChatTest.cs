@@ -6,7 +6,6 @@ using System.Web.Mvc;
 using Chat.Controllers;
 using Chat.Infrastructure.Abstract;
 using Chat.ViewModels;
-using Entities.Core.Abstract;
 using Entities.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -145,6 +144,20 @@ namespace Chat.Tests
 
             chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        public void CanEnterTheRoomTest()
+        {           
+            //var chat = new Entities.Models.Chat {Title = "Test chat"};
+            //chatRepositoryMock.Setup(service => service.Create(chat)).Throws(new ArgumentException());
+            
+            var view = chatController.JoinRoom(1);
+
+            chatRepositoryMock.Verify(service => service.GetChatById(1), Times.Once());
+            chatRepositoryMock.Verify(service => service.GetUserById(It.IsAny<int>()), Times.Once());
+            Assert.IsInstanceOfType(view, typeof(ViewResult));
+            Assert.AreEqual((view.Model as Entities.Models.Chat).ChatId, 1);
         }
     }
 }

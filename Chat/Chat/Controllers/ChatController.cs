@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using Chat.Filters;
 using Chat.Infrastructure.Abstract;
 using Chat.ViewModels;
-using Entities.Core;
-using Entities.Core.Abstract;
 using Entities.Models;
-using WebMatrix.WebData;
 
 namespace Chat.Controllers
 {
     [Authorize]
+    [InitializeSimpleMembership]
     public class ChatController : Controller
     {
         private readonly IChatRepository chatRepository;
@@ -46,7 +43,7 @@ namespace Chat.Controllers
             return View(chatInfo);
         }
 
-        public ActionResult Create()
+        public ViewResult Create()
         {
             return View();
         }
@@ -67,9 +64,34 @@ namespace Chat.Controllers
             return RedirectToAction("List");
         }
 
-        public ActionResult Join(int id)
+        public ViewResult JoinRoom(int id)
         {
-            throw new NotImplementedException();
+            var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
+            var chat = chatRepository.GetChatById(id);
+            chat.Members.Remove(currentUser);
+            return View(chat);
+        }
+
+        [HttpPost]
+        public JsonResult LoadRoom(int chatId, long lastRecordsCreationDate)
+        {
+            var chat = chatRepository.GetChatById(chatId);
+            var records = chat.Records.Where(record => record.CreationDate.ToBinary() > lastRecordsCreationDate)
+                              .Select(
+                                  record =>
+                                  new {Text = record.ToString(), CreationDate = record.CreationDate.ToBinary()});
+            //records = records.Concat(new[] { new { Text = "123", CreationDate = (long) 456 } });
+            return Json(records);
+        }
+
+        [HttpPost]
+        public ActionResult AddRecord(int chatId, string record)
+        {
+            var chat = chatRepository.GetChatById(chatId);
+            var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
+            chat.Records.Add(new Record {CreationDate = DateTime.Now, Creator = currentUser, Text = record});
+            chatRepository.Update(chat);
+            return new EmptyResult();
         }
     }
 }

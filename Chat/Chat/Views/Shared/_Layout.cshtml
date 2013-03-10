@@ -8,11 +8,18 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
     <body>
-        @Html.Action("LoginPartial", "Account")
-        @RenderBody()
+        <div id="window-top">
+            @Html.Action("LoginPartial", "Account")
+        </div>      
+        <div id="window-content">
+            @RenderBody()
+        </div>
+
+        @RenderSection("footer", required: false)
 
         @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryval")
-        @RenderSection("scripts", required: false)
+        @Scripts.Render("~/bundles/jqueryval")                
+
+        @RenderSection("scripts", required: false)        
     </body>
 </html>
