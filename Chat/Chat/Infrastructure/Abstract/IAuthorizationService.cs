@@ -7,5 +7,7 @@
         bool Login(string login, string password);
 
         void Logout();
+
+        int GetCurrentuserId();
     }
 }

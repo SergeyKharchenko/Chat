@@ -19,5 +19,10 @@ namespace Chat.Infrastructure.Concrete
         {
             WebSecurity.Logout();
         }
+
+        public int GetCurrentuserId()
+        {
+            return WebSecurity.CurrentUserId;
+        }
     }
 }

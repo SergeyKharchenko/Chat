@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Web.Mvc;
 using Chat.Controllers;
+using Chat.Infrastructure.Abstract;
 using Chat.ViewModels;
 using Entities.Core.Abstract;
 using Entities.Models;
@@ -15,12 +16,14 @@ namespace Chat.Tests
     [TestClass]
     public class ChatTest
     {
-        private Mock<IChatRepository> mock;
+        private Mock<IChatRepository> chatRepositoryMock;
+        private Mock<IAuthorizationService> authorizationServiceMock;
+        private ChatController chatController;
 
         [TestInitialize]
         public void InitializeChats()
         {
-            mock = new Mock<IChatRepository>();
+            chatRepositoryMock = new Mock<IChatRepository>();
 
             var sergey = new User {Login = "Sergey"};
             var igor = new User {Login = "Igor"};
@@ -37,7 +40,7 @@ namespace Chat.Tests
 
             var recordMaxim1 = new Record { Text = "For C#!!!", Creator = maxim, CreationDate = DateTime.Now };
 
-            mock.Setup(repo => repo.Chats).Returns(new List<Entities.Models.Chat>
+            chatRepositoryMock.Setup(repo => repo.Chats).Returns(new List<Entities.Models.Chat>
                 {
                     new Entities.Models.Chat
                         {
@@ -77,15 +80,17 @@ namespace Chat.Tests
                         }
                 }.AsQueryable);
 
-            mock.Setup(repo => repo.GetChatById(It.IsAny<int>()))
-                .Returns((int id) => mock.Object.Chats.Single(c => c.ChatId == id));
+            chatRepositoryMock.Setup(repo => repo.GetChatById(It.IsAny<int>()))
+                .Returns((int id) => chatRepositoryMock.Object.Chats.Single(c => c.ChatId == id));
+
+            authorizationServiceMock = new Mock<IAuthorizationService>();
+            authorizationServiceMock.Setup(service => service.GetCurrentuserId()).Returns(1);
+            chatController = new ChatController(chatRepositoryMock.Object, authorizationServiceMock.Object);
         }
 
         [TestMethod]
         public void CanShowAllChatsTest()
-        {                        
-            var chatController = new ChatController(mock.Object);
-            
+        {                   
             var view = chatController.List();
 
             Assert.IsInstanceOfType(view, typeof(ViewResult));
@@ -95,8 +100,6 @@ namespace Chat.Tests
         [TestMethod]
         public void CanGetChatInfoByRightIdTest()
         {
-            var chatController = new ChatController(mock.Object);
-
             var chatInfo = chatController.Info(1).Model as ChatInfo;
 
             Assert.AreEqual(chatInfo.Title, "Sergey's chat");
@@ -107,16 +110,12 @@ namespace Chat.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void CannotGetChatInfoByWrongIdTest()
         {
-            var chatController = new ChatController(mock.Object);
-
             chatController.Info(5);
         }
 
         [TestMethod]
         public void GetChatLastActivityTest()
         {
-            var chatController = new ChatController(mock.Object);
-
             var chatInfo = chatController.Info(1).Model as ChatInfo;
             var emptyChatInfo = chatController.Info(4).Model as ChatInfo;
 
@@ -127,26 +126,24 @@ namespace Chat.Tests
         [TestMethod]
         public void CreateChatSuccessTest()
         {
-            var chatController = new ChatController(mock.Object);
             var chat = new Entities.Models.Chat {Title = "Test chat"};
             
             var view = chatController.Create(chat);
 
-            mock.Verify(service => service.Create(chat), Times.Once());
+            chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(RedirectToRouteResult));
         }
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void CreateChatUnsuccessTest()
-        {
-            var chatController = new ChatController(mock.Object);            
+        {           
             var chat = new Entities.Models.Chat {Title = "Test chat"};
-            mock.Setup(service => service.Create(chat)).Throws(new ArgumentException());
+            chatRepositoryMock.Setup(service => service.Create(chat)).Throws(new ArgumentException());
             
             var view = chatController.Create(chat);
 
-            mock.Verify(service => service.Create(chat), Times.Once());
+            chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(ViewResult));
         }
     }

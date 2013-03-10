@@ -24,12 +24,14 @@ namespace Entities.Models
         public virtual User Creator { get; set; }
 
         [Display(Name = "Creation date")]
+        [HiddenInput(DisplayValue = false)]
         public DateTime CreatorionDate { get; set; }
 
         public virtual ICollection<User> Members { get; set; }
 
         public virtual ICollection<Record> Records { get; set; }
 
+        [HiddenInput(DisplayValue = false)]
         public DateTime LastActivity
         {
             get

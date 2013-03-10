@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Chat.Infrastructure.Abstract;
 using Chat.ViewModels;
 using Entities.Core;
 using Entities.Core.Abstract;
+using WebMatrix.WebData;
 
 namespace Chat.Controllers
 {
@@ -13,10 +15,12 @@ namespace Chat.Controllers
     public class ChatController : Controller
     {
         private readonly IChatRepository chatRepository;
+        private readonly IAuthorizationService authorizationService;
 
-        public ChatController(IChatRepository chatRepository)
+        public ChatController(IChatRepository chatRepository, IAuthorizationService authorizationService)
         {
             this.chatRepository = chatRepository;
+            this.authorizationService = authorizationService;
         }
 
         [AllowAnonymous]
@@ -46,10 +50,13 @@ namespace Chat.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(Entities.Models.Chat chat)
         {
-            if (!ModelState.IsValid)
+            if (string.IsNullOrEmpty(chat.Title))
                 return View();
+            chat.CreatorionDate = DateTime.Now;
+            chat.CreatorId = authorizationService.GetCurrentuserId();
             chatRepository.Create(chat);
             return RedirectToAction("List");
         }
