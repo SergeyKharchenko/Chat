@@ -1,0 +1,17 @@
+﻿@model Entities.Models.Chat
+
+@{
+    ViewBag.Title = "Create new chat";
+}
+
+<h2>Create new chat</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(false)
+
+    @Html.EditorForModel()    
+    <input type="submit" value="Create"/>
+}
+

@@ -44,10 +44,10 @@ namespace Chat.Tests
             mock.Setup(service => service.Login("John", "pass")).Returns(true);            
             var accountController = new AccountController(mock.Object);
 
-            var view = accountController.Login(new UserLogin { Login = "John", Password = "pass" });
+            var view = accountController.Login(new UserLogin { Login = "John", Password = "pass" }, null);
 
             mock.Verify(service => service.Login("John", "pass"), Times.Once());
-            Assert.IsInstanceOfType(view, typeof(RedirectToRouteResult));
+            Assert.IsInstanceOfType(view, typeof(RedirectResult));
         }
 
         [TestMethod]
@@ -56,8 +56,8 @@ namespace Chat.Tests
             var mock = new Mock<IAuthorizationService>();
             mock.Setup(service => service.Login("John", "pass")).Returns(false);            
             var accountController = new AccountController(mock.Object);
-            
-            var view = accountController.Login(new UserLogin {Login = "John", Password = "pass"});
+
+            var view = accountController.Login(new UserLogin { Login = "John", Password = "pass" }, null);
 
             mock.Verify(service => service.Login("John", "pass"), Times.Once());
             Assert.IsInstanceOfType(view, typeof(ViewResult));

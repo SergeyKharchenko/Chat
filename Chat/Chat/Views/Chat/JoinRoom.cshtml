@@ -1,0 +1,41 @@
+﻿@model Entities.Models.Chat
+@{
+	ViewBag.Title = "Chat " + Model.Title;
+}	
+@Html.Hidden("chat-id", Model.ChatId, new {data_action = Url.Action("LoadRoom")})
+
+<div id="chat-window-left">
+	<div id="messages-container">
+		@foreach (var record in Model.Records)
+		{
+			<div data-creation-date="@record.CreationDate.ToBinary()">@record.ToString()</div>
+		}
+	</div>
+</div>
+
+<div id="chat-window-right">
+	<div id="user-list">
+		@foreach (var member in Model.Members)
+		{
+			<div>@member.Login</div>
+		}
+	</div>
+</div>
+
+@section footer
+{
+    <div id="chat-new-message">
+        @Html.TextArea("new_message", new {data_action = Url.Action("AddRecord")})
+        <input id="enter-button" type="button" value="Enter"/>
+    </div>   
+}
+
+@section scripts
+{
+    <script src="~/Scripts/Custom/load-records.js"></script>
+    <script id="record-pattern" type="record-pattern">
+        <div data-creation-date="{creation-date}">
+            {text}
+        </div>
+    </script>
+}

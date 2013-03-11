@@ -21,11 +21,6 @@ namespace Chat.Controllers
             this.authorizationService = authorizationService;
         }
 
-        public ActionResult Index(string login)
-        {
-            return View();
-        }
-
         public PartialViewResult LoginPartial()
         {
             if (WebSecurity.IsAuthenticated)
@@ -49,7 +44,7 @@ namespace Chat.Controllers
                 {
                     authorizationService.Register(userRegistration.Login, userRegistration.Password);
                     authorizationService.Login(userRegistration.Login, userRegistration.Password);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("List", "Chat");
                 }
                 catch (MembershipCreateUserException)
                 {
@@ -60,19 +55,20 @@ namespace Chat.Controllers
         }
 
         [HttpGet]
-        public ViewResult Login()
+        public ViewResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(UserLogin userLogin)
+        public ActionResult Login(UserLogin userLogin, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 if (authorizationService.Login(userLogin.Login, userLogin.Password))
-                    return RedirectToAction("Index");
+                    return Redirect(returnUrl ?? "~/");
                 ModelState.AddModelError("", "Login or password is invalid");
             }
             return View();
@@ -82,7 +78,7 @@ namespace Chat.Controllers
         public RedirectToRouteResult Logout(string login)
         {
             authorizationService.Logout();
-            return RedirectToAction("Index");
+            return RedirectToAction("List", "Chat");
         }
     }
 }

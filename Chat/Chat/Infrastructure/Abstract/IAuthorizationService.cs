@@ -1,4 +1,6 @@
-﻿namespace Chat.Infrastructure.Abstract
+﻿using Entities.Models;
+
+namespace Chat.Infrastructure.Abstract
 {
     public interface IAuthorizationService
     {
@@ -7,5 +9,7 @@
         bool Login(string login, string password);
 
         void Logout();
+
+        int GetCurrentuserId();
     }
 }

@@ -1,4 +1,6 @@
 ﻿using Chat.Infrastructure.Abstract;
+using Entities.Core.Concrete;
+using Entities.Models;
 using WebMatrix.WebData;
 
 namespace Chat.Infrastructure.Concrete
@@ -18,6 +20,11 @@ namespace Chat.Infrastructure.Concrete
         public void Logout()
         {
             WebSecurity.Logout();
+        }
+
+        public int GetCurrentuserId()
+        {
+            return WebSecurity.CurrentUserId;
         }
     }
 }

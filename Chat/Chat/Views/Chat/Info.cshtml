@@ -1,0 +1,48 @@
+﻿@model Chat.ViewModels.ChatInfo
+
+@{
+    ViewBag.Title = Model.Title + " Info";
+}
+
+<h2>@Model.Title Info</h2>
+
+<p>
+    Was created by <b>@Model.Creator</b><br/>
+    Last activity: @Html.DisplayFor(chat => chat.LastActivity)
+</p>
+
+<div class="chat-members">
+    Members:
+    <ul class="chat-members-list">
+        @foreach (var member in Model.Members)
+        {
+            <li>
+                @member
+            </li>
+        }
+    </ul>
+</div>
+
+<div class="chat-records">
+    @if (Model.Records.Length > 0)
+    {
+        @:Last records:
+        <ul class="chat-records-list">
+            @foreach (var record in Model.Records)
+            {
+                <li>
+                    @record.Creator.Login: @record.Text
+                </li>
+            }    
+        </ul>
+    }
+    else
+    {
+        @:No records here
+    }
+</div>
+
+<div>
+    @Html.ActionLink("Back to chat list", "List")<br/>
+    @Html.ActionLink("Join", "JoinRoom", new {Model.Id})
+</div>
