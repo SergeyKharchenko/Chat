@@ -25,23 +25,26 @@ namespace Entities.Core.Concrete
                         .HasRequired(record => record.Chat)
                         .WithMany(chat => chat.Records)
                         .HasForeignKey(record => record.ChatId);
-            
+
             modelBuilder.Entity<Chat>()
                         .HasRequired(chat => chat.Creator)
                         .WithMany(user => user.CreatedChats)
                         .HasForeignKey(chat => chat.CreatorId);
 
             modelBuilder.Entity<Record>()
-                        .HasRequired(record => record.Creator)
+                        .HasRequired(chat => chat.Creator)
                         .WithMany(user => user.Records)
-                        .HasForeignKey(record => record.CreatorId);
+                        .HasForeignKey(chat => chat.CreatorId);
 
-            modelBuilder.Entity<User>()
-                        .HasMany(user => user.ChatMembers)
-                        .WithMany(chat => chat.Members)
-                        .Map(info => info.MapLeftKey("UserId")
-                                         .MapRightKey("ChatId")
-                                         .ToTable("Members"));
+            modelBuilder.Entity<Member>()
+                        .HasRequired(member => member.User)
+                        .WithMany(user => user.Members)
+                        .HasForeignKey(member => member.UserId);
+
+            modelBuilder.Entity<Member>()
+                        .HasRequired(member => member.Chat)
+                        .WithMany(user => user.Members)
+                        .HasForeignKey(member => member.ChatId);
         }
     }
 }

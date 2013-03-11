@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Chat.Filters;
@@ -37,7 +38,7 @@ namespace Chat.Controllers
                     Title = chat.Title,
                     Creator = chat.Creator.Login,
                     LastActivity = chat.LastActivity,
-                    Members = (from member in chat.Members select member.Login).ToArray(),
+                    Members = (from member in chat.Members select member.User.Login).ToArray(),
                     Records = chat.Records.Reverse().Take(3).Reverse().ToArray()
                 };
             return View(chatInfo);
@@ -58,7 +59,7 @@ namespace Chat.Controllers
             chat.CreatorionDate = DateTime.Now;
             var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
             chat.Creator = currentUser;
-            chat.Members = new Collection<User> {currentUser};
+            chat.Members = new Collection<Member> {new Member {User = currentUser, Chat = chat, EnterTime = DateTime.Now}};
             chatRepository.Create(chat);
 
             return RedirectToAction("List");
@@ -68,8 +69,8 @@ namespace Chat.Controllers
         {
             var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
             var chat = chatRepository.GetChatById(id);
-            chat.Members.Remove(currentUser);
-            return View(chat);
+            chat.Members.Remove(chat.Members.FirstOrDefault(member => member.UserId == currentUser.UserId));
+            return View("Room", chat);
         }
 
         [HttpPost]
@@ -80,7 +81,6 @@ namespace Chat.Controllers
                               .Select(
                                   record =>
                                   new {Text = record.ToString(), CreationDate = record.CreationDate.ToBinary()});
-            //records = records.Concat(new[] { new { Text = "123", CreationDate = (long) 456 } });
             return Json(records);
         }
 

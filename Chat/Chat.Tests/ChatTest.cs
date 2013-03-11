@@ -39,7 +39,7 @@ namespace Chat.Tests
 
             var recordMaxim1 = new Record { Text = "For C#!!!", Creator = maxim, CreationDate = DateTime.Now };
 
-            chatRepositoryMock.Setup(repo => repo.Chats).Returns(new List<Entities.Models.Chat>
+            var chats = new List<Entities.Models.Chat>
                 {
                     new Entities.Models.Chat
                         {
@@ -48,7 +48,6 @@ namespace Chat.Tests
                             Creator = sergey,
                             CreatorionDate = DateTime.MinValue,
                             Records = new Collection<Record> {recordSergey1, recordSergey2},
-                            Members = new Collection<User> {sergey, igor, andrey, maxim}
                         },
                     new Entities.Models.Chat
                         {
@@ -57,7 +56,6 @@ namespace Chat.Tests
                             Creator = igor,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordIgor1},
-                            Members = new Collection<User> {sergey, igor}
                         },
                     new Entities.Models.Chat
                         {
@@ -66,7 +64,6 @@ namespace Chat.Tests
                             Creator = andrey,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordAndrey2, recordMaxim1, recordAndrey1},
-                            Members = new Collection<User> {sergey, andrey, maxim}
                         },
                     new Entities.Models.Chat
                         {
@@ -75,9 +72,30 @@ namespace Chat.Tests
                             Creator = andrey,
                             CreatorionDate = DateTime.MinValue,
                             Records = new Collection<Record>(),
-                            Members = new Collection<User>()
+                            Members = new Collection<Member>()
                         }
-                }.AsQueryable);
+                };
+
+            chats[0].Members = new Collection<Member>
+                {
+                    new Member {User = sergey, Chat = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = igor, Chat = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = andrey, Chat = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = maxim, Chat = chats[0], EnterTime = DateTime.Now}
+                };
+            chats[1].Members = new Collection<Member>
+                {
+                    new Member {User = sergey, Chat = chats[1], EnterTime = DateTime.Now},
+                    new Member {User = igor, Chat = chats[1], EnterTime = DateTime.Now},
+                };
+            chats[2].Members = new Collection<Member>
+                {
+                    new Member {User = sergey, Chat = chats[2], EnterTime = DateTime.Now},
+                    new Member {User = andrey, Chat = chats[2], EnterTime = DateTime.Now},
+                    new Member {User = maxim, Chat = chats[2], EnterTime = DateTime.Now}
+                };
+
+            chatRepositoryMock.Setup(repo => repo.Chats).Returns(chats.AsQueryable);
 
             chatRepositoryMock.Setup(repo => repo.GetChatById(It.IsAny<int>()))
                 .Returns((int id) => chatRepositoryMock.Object.Chats.Single(c => c.ChatId == id));
@@ -149,8 +167,7 @@ namespace Chat.Tests
         [TestMethod]
         public void CanEnterTheRoomTest()
         {           
-            //var chat = new Entities.Models.Chat {Title = "Test chat"};
-            //chatRepositoryMock.Setup(service => service.Create(chat)).Throws(new ArgumentException());
+            chatRepositoryMock.Setup(service => service.GetUserById(It.IsAny<int>())).Returns(new User());
             
             var view = chatController.JoinRoom(1);
 

@@ -27,7 +27,7 @@ namespace Entities.Models
         [HiddenInput(DisplayValue = false)]
         public DateTime CreatorionDate { get; set; }
 
-        public virtual ICollection<User> Members { get; set; }
+        public virtual ICollection<Member> Members { get; set; }
 
         public virtual ICollection<Record> Records { get; set; }
 

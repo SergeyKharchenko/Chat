@@ -239,7 +239,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
-    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\Custom\load-records.js" />
@@ -277,7 +276,7 @@
     <Content Include="Views\Chat\ChatSummary.cshtml" />
     <Content Include="Views\Chat\Info.cshtml" />
     <Content Include="Views\Chat\Create.cshtml" />
-    <Content Include="Views\Chat\JoinRoom.cshtml" />
+    <Content Include="Views\Chat\Room.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

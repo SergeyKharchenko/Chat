@@ -45,7 +45,6 @@ namespace Chat.Infrastructure.Concrete
                             Creator = sergey,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordSergey1, recordSergey2},
-                            Members = new Collection<User> {sergey, igor, andrey, maxim}
                         },
                     new Entities.Models.Chat
                         {
@@ -53,7 +52,6 @@ namespace Chat.Infrastructure.Concrete
                             Creator = igor,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordIgor1},
-                            Members = new Collection<User> {sergey, igor}
                         },
                     new Entities.Models.Chat
                         {
@@ -61,10 +59,28 @@ namespace Chat.Infrastructure.Concrete
                             Creator = andrey,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordAndrey2, recordMaxim1, recordAndrey1},
-                            Members = new Collection<User> {sergey, andrey, maxim}
                         }
                 };
-            
+
+            chats[0].Members = new Collection<Member>
+                {
+                    new Member {User = sergey, Chat = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = igor, Chat = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = andrey, Chat = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = maxim, Chat = chats[0], EnterTime = DateTime.Now}
+                };
+            chats[1].Members = new Collection<Member>
+                {
+                    new Member {User = sergey, Chat = chats[1], EnterTime = DateTime.Now},
+                    new Member {User = igor, Chat = chats[1], EnterTime = DateTime.Now},
+                };
+            chats[2].Members = new Collection<Member>
+                {
+                    new Member {User = sergey, Chat = chats[2], EnterTime = DateTime.Now},
+                    new Member {User = andrey, Chat = chats[2], EnterTime = DateTime.Now},
+                    new Member {User = maxim, Chat = chats[2], EnterTime = DateTime.Now}
+                };
+
             chats.ForEach(chat => context.Chats.Add(chat));
             context.SaveChanges();
         }
