@@ -44,7 +44,7 @@ namespace Chat.Controllers
                 {
                     authorizationService.Register(userRegistration.Login, userRegistration.Password);
                     authorizationService.Login(userRegistration.Login, userRegistration.Password);
-                    return RedirectToAction("List", "Chat");
+                    return RedirectToAction("List", "Room");
                 }
                 catch (MembershipCreateUserException)
                 {
@@ -78,7 +78,7 @@ namespace Chat.Controllers
         public RedirectToRouteResult Logout(string login)
         {
             authorizationService.Logout();
-            return RedirectToAction("List", "Chat");
+            return RedirectToAction("List", "Room");
         }
     }
 }

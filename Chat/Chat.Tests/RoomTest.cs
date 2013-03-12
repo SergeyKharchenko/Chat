@@ -14,16 +14,20 @@ using Moq;
 namespace Chat.Tests
 {
     [TestClass]
-    public class ChatTest
+    public class RoomTest
     {
-        private Mock<IEntityRepository<Entities.Models.Chat>> chatRepositoryMock;
         private Mock<IAuthorizationService> authorizationServiceMock;
-        private ChatController chatController;
+
+        private Mock<IEntityRepository<Room>> chatRepositoryMock;
+        private Mock<IEntityRepository<Record>>  recordRepositoryMock;
+        private Mock<IEntityRepository<Member>>  memberRepositoryMock;
+
+        private RoomController roomController;
 
         [TestInitialize]
         public void InitializeChats()
         {
-            chatRepositoryMock = new Mock<IEntityRepository<Entities.Models.Chat>>();
+            chatRepositoryMock = new Mock<IEntityRepository<Room>>();
 
             var sergey = new User {Login = "Sergey"};
             var igor = new User {Login = "Igor"};
@@ -40,36 +44,36 @@ namespace Chat.Tests
 
             var recordMaxim1 = new Record { Text = "For C#!!!", Creator = maxim, CreationDate = DateTime.Now };
 
-            var chats = new List<Entities.Models.Chat>
+            var chats = new List<Room>
                 {
-                    new Entities.Models.Chat
+                    new Room
                         {
-                            ChatId = 1,
-                            Title = "Sergey's chat",
+                            RoomId = 1,
+                            Title = "Sergey's Room",
                             Creator = sergey,
                             CreatorionDate = DateTime.MinValue,
                             Records = new Collection<Record> {recordSergey1, recordSergey2},
                         },
-                    new Entities.Models.Chat
+                    new Room
                         {
-                            ChatId = 2,
-                            Title = "Igor's chat",
+                            RoomId = 2,
+                            Title = "Igor's Room",
                             Creator = igor,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordIgor1},
                         },
-                    new Entities.Models.Chat
+                    new Room
                         {
-                            ChatId = 3,
-                            Title = "Andrey's chat",
+                            RoomId = 3,
+                            Title = "Andrey's Room",
                             Creator = andrey,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordAndrey2, recordMaxim1, recordAndrey1},
                         },
-                    new Entities.Models.Chat
+                    new Room
                         {
-                            ChatId = 4,
-                            Title = "Empty chat",
+                            RoomId = 4,
+                            Title = "Empty Room",
                             Creator = andrey,
                             CreatorionDate = DateTime.MinValue,
                             Records = new Collection<Record>(),
@@ -79,34 +83,38 @@ namespace Chat.Tests
 
             chats[0].Members = new Collection<Member>
                 {
-                    new Member {User = sergey, Chat = chats[0], EnterTime = DateTime.Now},
-                    new Member {User = igor, Chat = chats[0], EnterTime = DateTime.Now},
-                    new Member {User = andrey, Chat = chats[0], EnterTime = DateTime.Now},
-                    new Member {User = maxim, Chat = chats[0], EnterTime = DateTime.Now}
+                    new Member {User = sergey, Room = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = igor, Room = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = andrey, Room = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = maxim, Room = chats[0], EnterTime = DateTime.Now}
                 };
             chats[1].Members = new Collection<Member>
                 {
-                    new Member {User = sergey, Chat = chats[1], EnterTime = DateTime.Now},
-                    new Member {User = igor, Chat = chats[1], EnterTime = DateTime.Now},
+                    new Member {User = sergey, Room = chats[1], EnterTime = DateTime.Now},
+                    new Member {User = igor, Room = chats[1], EnterTime = DateTime.Now},
                 };
             chats[2].Members = new Collection<Member>
                 {
-                    new Member {User = sergey, Chat = chats[2], EnterTime = DateTime.Now},
-                    new Member {User = andrey, Chat = chats[2], EnterTime = DateTime.Now},
-                    new Member {User = maxim, Chat = chats[2], EnterTime = DateTime.Now}
+                    new Member {User = sergey, Room = chats[2], EnterTime = DateTime.Now},
+                    new Member {User = andrey, Room = chats[2], EnterTime = DateTime.Now},
+                    new Member {User = maxim, Room = chats[2], EnterTime = DateTime.Now}
                 };
 
+            memberRepositoryMock = new Mock<IEntityRepository<Member>>();
+            var memberCollection = from chat in chats
+                    from member in chat.Members
+                    select member;
+            memberRepositoryMock.Setup(repo => repo.Entities).Returns(memberCollection.AsQueryable());
+            
             chatRepositoryMock.Setup(repo => repo.Entities).Returns(chats.AsQueryable);
 
             chatRepositoryMock.Setup(repo => repo.GetById(It.IsAny<int>()))
-                .Returns((int id) => chatRepositoryMock.Object.Entities.Single(c => c.ChatId == id));
+                .Returns((int id) => chatRepositoryMock.Object.Entities.Single(c => c.RoomId == id));
 
             authorizationServiceMock = new Mock<IAuthorizationService>();
             authorizationServiceMock.Setup(service => service.GetCurrentUser()).Returns(new User());
 
-            var memberRepositoryMock = new Mock<IEntityRepository<Member>>();
-
-            chatController = new ChatController(chatRepositoryMock.Object,
+            roomController = new RoomController(chatRepositoryMock.Object,
                                                 null,
                                                 memberRepositoryMock.Object,
                                                 authorizationServiceMock.Object);
@@ -115,18 +123,18 @@ namespace Chat.Tests
         [TestMethod]
         public void CanShowAllChatsTest()
         {                   
-            var view = chatController.List();
+            var view = roomController.List();
 
             Assert.IsInstanceOfType(view, typeof(ViewResult));
-            Assert.IsInstanceOfType(view.Model, typeof(IQueryable<Entities.Models.Chat>));
+            Assert.IsInstanceOfType(view.Model, typeof(IQueryable<Room>));
         }
 
         [TestMethod]
         public void CanGetChatInfoByRightIdTest()
         {
-            var chatInfo = chatController.Info(1).Model as ChatInfo;
+            var chatInfo = roomController.Info(1).Model as ChatInfo;
 
-            Assert.AreEqual(chatInfo.Title, "Sergey's chat");
+            Assert.AreEqual(chatInfo.Title, "Sergey's Room");
             Assert.AreEqual(chatInfo.Members.Length, 4);
         }
 
@@ -134,14 +142,14 @@ namespace Chat.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void CannotGetChatInfoByWrongIdTest()
         {
-            chatController.Info(5);
+            roomController.Info(5);
         }
 
         [TestMethod]
         public void GetChatLastActivityTest()
         {
-            var chatInfo = chatController.Info(1).Model as ChatInfo;
-            var emptyChatInfo = chatController.Info(4).Model as ChatInfo;
+            var chatInfo = roomController.Info(1).Model as ChatInfo;
+            var emptyChatInfo = roomController.Info(4).Model as ChatInfo;
 
             Assert.AreEqual(chatInfo.LastActivity, DateTime.MaxValue);
             Assert.AreEqual(emptyChatInfo.LastActivity, DateTime.MinValue);
@@ -150,9 +158,9 @@ namespace Chat.Tests
         [TestMethod]
         public void CreateChatSuccessTest()
         {
-            var chat = new Entities.Models.Chat {Title = "Test chat"};
+            var chat = new Room {Title = "Test Room"};
             
-            var view = chatController.Create(chat);
+            var view = roomController.Create(chat);
 
             chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(RedirectToRouteResult));
@@ -162,10 +170,10 @@ namespace Chat.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void CreateChatUnsuccessTest()
         {           
-            var chat = new Entities.Models.Chat {Title = "Test chat"};
+            var chat = new Room {Title = "Test Room"};
             chatRepositoryMock.Setup(service => service.Create(chat)).Throws(new ArgumentException());
             
-            var view = chatController.Create(chat);
+            var view = roomController.Create(chat);
 
             chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(ViewResult));
@@ -174,12 +182,12 @@ namespace Chat.Tests
         [TestMethod]
         public void CanEnterTheRoomTest()
         {           
-            var view = chatController.JoinRoom(1);
+            var view = roomController.JoinRoom(1);
 
             chatRepositoryMock.Verify(service => service.GetById(1), Times.Once());
             chatRepositoryMock.Verify(service => service.GetById(It.IsAny<int>()), Times.Once());
             Assert.IsInstanceOfType(view, typeof(ViewResult));
-            Assert.AreEqual((view.Model as Entities.Models.Chat).ChatId, 1);
+            Assert.AreEqual((view.Model as Room).RoomId, 1);
         }
     }
 }

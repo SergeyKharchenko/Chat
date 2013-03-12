@@ -15,7 +15,7 @@ namespace Entities.Models
 
         public string Login { get; set; }
 
-        public virtual ICollection<Chat> CreatedChats { get; set; }
+        public virtual ICollection<Room> CreatedRooms { get; set; }
         public virtual ICollection<Record> Records { get; set; }
 
         public virtual ICollection<Member> Members { get; set; }

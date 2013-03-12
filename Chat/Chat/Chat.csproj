@@ -166,7 +166,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -272,11 +272,11 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Chat\List.cshtml" />
-    <Content Include="Views\Chat\ChatSummary.cshtml" />
-    <Content Include="Views\Chat\Info.cshtml" />
-    <Content Include="Views\Chat\Create.cshtml" />
-    <Content Include="Views\Chat\Room.cshtml" />
+    <Content Include="Views\Room\List.cshtml" />
+    <Content Include="Views\Room\RoomSummary.cshtml" />
+    <Content Include="Views\Room\Info.cshtml" />
+    <Content Include="Views\Room\Create.cshtml" />
+    <Content Include="Views\Room\Room.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -14,7 +14,7 @@ namespace Entities.Core.Concrete
 
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Chat> Chats { get; set; }
+        public DbSet<Room> Rooms { get; set; }
         public DbSet<Record> Records { get; set; }
         public DbSet<Member> Members { get; set; }
 
@@ -23,13 +23,13 @@ namespace Entities.Core.Concrete
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             modelBuilder.Entity<Record>()
-                        .HasRequired(record => record.Chat)
+                        .HasRequired(record => record.Room)
                         .WithMany(chat => chat.Records)
-                        .HasForeignKey(record => record.ChatId);
+                        .HasForeignKey(record => record.RoomId);
 
-            modelBuilder.Entity<Chat>()
+            modelBuilder.Entity<Room>()
                         .HasRequired(chat => chat.Creator)
-                        .WithMany(user => user.CreatedChats)
+                        .WithMany(user => user.CreatedRooms)
                         .HasForeignKey(chat => chat.CreatorId);
 
             modelBuilder.Entity<Record>()
@@ -43,9 +43,9 @@ namespace Entities.Core.Concrete
                         .HasForeignKey(member => member.UserId);
 
             modelBuilder.Entity<Member>()
-                        .HasRequired(member => member.Chat)
+                        .HasRequired(member => member.Room)
                         .WithMany(user => user.Members)
-                        .HasForeignKey(member => member.ChatId);
+                        .HasForeignKey(member => member.RoomId);
         }
     }
 }

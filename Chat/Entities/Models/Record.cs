@@ -22,8 +22,8 @@ namespace Entities.Models
         public DateTime CreationDate { get; set; }
 
         [HiddenInput(DisplayValue = false)]
-        public int ChatId { get; set; }
-        public Chat Chat { get; set; }
+        public int RoomId { get; set; }
+        public Room Room { get; set; }
 
         public override string ToString()
         {

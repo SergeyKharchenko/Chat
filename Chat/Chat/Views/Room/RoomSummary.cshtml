@@ -1,0 +1,16 @@
+﻿@model Entities.Models.Room
+
+<div class="chat-element-container">
+    <div class="chat-title">
+        <i>@Model.Title</i> - <b>@Model.Creator.Login</b>
+    </div>
+    <span id="chat-actions">
+        @Html.ActionLink("Info", "Info", "Room", new {roomId = Model.RoomId}, null)
+        @Html.ActionLink("Join", "JoinRoom", "Room", new {roomId = Model.RoomId}, null)
+    </span>
+    <div class="Room-last-activity">
+        <div>
+            @Html.DisplayNameFor(room => room.CreatorionDate): @Model.CreatorionDate
+        </div>    
+    </div>
+</div>

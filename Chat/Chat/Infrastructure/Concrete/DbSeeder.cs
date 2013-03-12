@@ -37,25 +37,25 @@ namespace Chat.Infrastructure.Concrete
 
             var recordMaxim1 = new Record { Text = "For C#!!!", Creator = maxim, CreationDate = DateTime.Now };
 
-            var chats = new List<Entities.Models.Chat>
+            var chats = new List<Room>
                 {
-                    new Entities.Models.Chat
+                    new Room
                         {
-                            Title = "Sergey's chat",
+                            Title = "Sergey's Room",
                             Creator = sergey,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordSergey1, recordSergey2},
                         },
-                    new Entities.Models.Chat
+                    new Room
                         {
-                            Title = "Igor's chat",
+                            Title = "Igor's Room",
                             Creator = igor,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordIgor1},
                         },
-                    new Entities.Models.Chat
+                    new Room
                         {
-                            Title = "Andrey's chat",
+                            Title = "Andrey's Room",
                             Creator = andrey,
                             CreatorionDate = DateTime.Now,
                             Records = new Collection<Record> {recordAndrey2, recordMaxim1, recordAndrey1},
@@ -64,24 +64,24 @@ namespace Chat.Infrastructure.Concrete
 
             chats[0].Members = new Collection<Member>
                 {
-                    new Member {User = sergey, Chat = chats[0], EnterTime = DateTime.Now},
-                    new Member {User = igor, Chat = chats[0], EnterTime = DateTime.Now},
-                    new Member {User = andrey, Chat = chats[0], EnterTime = DateTime.Now},
-                    new Member {User = maxim, Chat = chats[0], EnterTime = DateTime.Now}
+                    new Member {User = sergey, Room = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = igor, Room = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = andrey, Room = chats[0], EnterTime = DateTime.Now},
+                    new Member {User = maxim, Room = chats[0], EnterTime = DateTime.Now}
                 };
             chats[1].Members = new Collection<Member>
                 {
-                    new Member {User = sergey, Chat = chats[1], EnterTime = DateTime.Now},
-                    new Member {User = igor, Chat = chats[1], EnterTime = DateTime.Now},
+                    new Member {User = sergey, Room = chats[1], EnterTime = DateTime.Now},
+                    new Member {User = igor, Room = chats[1], EnterTime = DateTime.Now},
                 };
             chats[2].Members = new Collection<Member>
                 {
-                    new Member {User = sergey, Chat = chats[2], EnterTime = DateTime.Now},
-                    new Member {User = andrey, Chat = chats[2], EnterTime = DateTime.Now},
-                    new Member {User = maxim, Chat = chats[2], EnterTime = DateTime.Now}
+                    new Member {User = sergey, Room = chats[2], EnterTime = DateTime.Now},
+                    new Member {User = andrey, Room = chats[2], EnterTime = DateTime.Now},
+                    new Member {User = maxim, Room = chats[2], EnterTime = DateTime.Now}
                 };
 
-            chats.ForEach(chat => context.Chats.Add(chat));
+            chats.ForEach(chat => context.Rooms.Add(chat));
             context.SaveChanges();
         }
     }

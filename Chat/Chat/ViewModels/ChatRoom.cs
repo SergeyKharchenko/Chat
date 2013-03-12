@@ -4,7 +4,7 @@ namespace Chat.ViewModels
 {
     public class ChatRoom
     {
-        public Entities.Models.Chat Chat { get; set; }
+        public Room Room { get; set; }
         public User CurrentUser { get; set; }
     }
 }

@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace Entities.Models
 {
-    [Table("Chat")]
-    public class Chat
+    [Table("Room")]
+    public class Room
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [HiddenInput(DisplayValue = false)]
-        public int ChatId { get; set; }
+        public int RoomId { get; set; }
 
         [Required]
         [StringLength(50, ErrorMessage = "The {0} must not be more than 50 characters")]
