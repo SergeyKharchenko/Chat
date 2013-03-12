@@ -35,9 +35,9 @@ namespace Chat.Controllers
             return View(chatRepository.Entities);
         }
 
-        public ViewResult Info(int id)
+        public ViewResult Info(int chatId)
         {
-            var chat = chatRepository.GetById(id);
+            var chat = chatRepository.GetById(chatId);
             var chatInfo = new ChatInfo
                 {
                     Id = chat.ChatId,
@@ -74,10 +74,10 @@ namespace Chat.Controllers
             return RedirectToAction("List");
         }
 
-        public ViewResult JoinRoom(int id)
+        public ViewResult JoinRoom(int chatId)
         {
             var currentUser = authorizationService.GetCurrentUser();
-            var chat = chatRepository.GetById(id);
+            var chat = chatRepository.GetById(chatId);
             if (!memberRepository.Entities.Any(member => member.ChatId == chat.ChatId && member.UserId == currentUser.UserId))
                 memberRepository.Create(new Member
                     {
@@ -112,6 +112,16 @@ namespace Chat.Controllers
                 };
             recordRepository.Create(record);
             return new EmptyResult();
+        }
+
+        public RedirectToRouteResult ExitRoom(int chatId)
+        {
+            var currentUser = authorizationService.GetCurrentUser();
+            var member =
+                memberRepository.Entities.FirstOrDefault(m => m.ChatId == chatId && m.UserId == currentUser.UserId);
+            memberRepository.Delete(member);
+
+            return RedirectToAction("List");
         }
     }
 }

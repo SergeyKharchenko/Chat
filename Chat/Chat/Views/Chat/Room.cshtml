@@ -15,21 +15,23 @@
 </div>
 
 <div id="chat-window-right">
-	<div id="user-list">
-		@foreach (var member in Model.Members)
-		{
-			<div>@member.User.Login</div>
-		}
-	</div>
+    <div id="user-list">
+        @foreach (var member in Model.Members)
+        {
+            <div>@member.User.Login</div>
+        }
+    </div>
 </div>
 
 @section footer
 {
-	<div id="chat-new-message">
-		@Html.TextArea("new_message", new {data_action = Url.Action("AddRecord")})
-		<input id="enter-button" type="button" value="Enter"/>
-	</div>   
+    <div id="chat-window-bottom">
+        @Html.TextArea("new_message", new {data_action = Url.Action("AddRecord")})
+        <input id="enter-button" type="button" value="Enter" />
+        @Html.ActionLink("Exit", "ExitRoom", "Chat", new {chatId = Model.ChatId}, new {id = "exit-link"})
+    </div>   
 }
+
 
 @section scripts
 {

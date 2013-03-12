@@ -128,11 +128,12 @@ textarea {
 	overflow-y: scroll;
 }
 
-#chat-new-message {
+#chat-window-bottom {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	height: 90px
+    height: 90px;
+    padding-left: 10px;
 }
 
 #window-content {
@@ -142,16 +143,24 @@ textarea {
 	width: 100%;
 }
 
-#messages-container {
+#messages-container {    
+    padding-left: 10px;
 	word-wrap: break-word;
 }
 
 #user-list {
-	word-wrap: break-word;
+    padding-left: 10px;
 }
 
 #enter-button {
     top: 0;
     position: absolute;
+    font-size: 1.5em;
+}
+
+#exit-link {
+    position: absolute;
+    right: 5%;
+    bottom: 10%;
     font-size: 1.5em;
 }

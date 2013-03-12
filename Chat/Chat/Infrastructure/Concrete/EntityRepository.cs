@@ -39,6 +39,8 @@ namespace Chat.Infrastructure.Concrete
 
         public void Delete(TEntity entity)
         {
+            if (entity == null)
+                return;
             if (context.Entry(entity).State == EntityState.Detached)
                 dbSet.Attach(entity);
             dbSet.Remove(entity);
