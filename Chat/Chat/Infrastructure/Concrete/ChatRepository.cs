@@ -20,15 +20,27 @@ namespace Chat.Infrastructure.Concrete
             return context.Chats.Find(id);
         }
 
-        public void Create(Entities.Models.Chat chat)
+        public void CreateChat(Entities.Models.Chat chat)
         {
             context.Chats.Add(chat);
             Save();
         }
 
-        public void Update(Entities.Models.Chat chat)
+        public void CreateRecord(Record record)
+        {
+            context.Records.Add(record);
+            Save();
+        }
+
+        public void UpdateChat(Entities.Models.Chat chat)
         {
             context.Entry(chat).State = EntityState.Modified;
+            Save();
+        }
+
+        public void UpdateRecord(Record record)
+        {
+            context.Entry(record).State = EntityState.Modified;
             Save();
         }
 

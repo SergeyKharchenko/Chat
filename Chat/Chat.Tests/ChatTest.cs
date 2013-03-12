@@ -147,7 +147,7 @@ namespace Chat.Tests
             
             var view = chatController.Create(chat);
 
-            chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
+            chatRepositoryMock.Verify(service => service.CreateChat(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(RedirectToRouteResult));
         }
 
@@ -156,11 +156,11 @@ namespace Chat.Tests
         public void CreateChatUnsuccessTest()
         {           
             var chat = new Entities.Models.Chat {Title = "Test chat"};
-            chatRepositoryMock.Setup(service => service.Create(chat)).Throws(new ArgumentException());
+            chatRepositoryMock.Setup(service => service.CreateChat(chat)).Throws(new ArgumentException());
             
             var view = chatController.Create(chat);
 
-            chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
+            chatRepositoryMock.Verify(service => service.CreateChat(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(ViewResult));
         }
 

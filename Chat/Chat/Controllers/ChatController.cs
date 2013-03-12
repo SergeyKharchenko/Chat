@@ -60,7 +60,7 @@ namespace Chat.Controllers
             var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
             chat.Creator = currentUser;
             chat.Members = new Collection<Member> {new Member {User = currentUser, Chat = chat, EnterTime = DateTime.Now}};
-            chatRepository.Create(chat);
+            chatRepository.CreateChat(chat);
 
             return RedirectToAction("List");
         }
@@ -85,12 +85,16 @@ namespace Chat.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddRecord(int chatId, string record)
+        public ActionResult AddRecord(int chatId, string text)
         {
-            var chat = chatRepository.GetChatById(chatId);
-            var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
-            chat.Records.Add(new Record {CreationDate = DateTime.Now, Creator = currentUser, Text = record});
-            chatRepository.Update(chat);
+            var record = new Record
+                {
+                    CreationDate = DateTime.Now,
+                    CreatorId = authorizationService.GetCurrentuserId(),
+                    ChatId = chatId,
+                    Text = text
+                };
+            chatRepository.CreateRecord(record);
             return new EmptyResult();
         }
     }

@@ -8,8 +8,11 @@ namespace Chat.Infrastructure.Abstract
         IQueryable<Entities.Models.Chat> Chats { get; }
 
         Entities.Models.Chat GetChatById(int id);
-        void Create(Entities.Models.Chat chat);
-        void Update(Entities.Models.Chat chat);
+        void CreateChat(Entities.Models.Chat chat);
+        void CreateRecord(Record record);
+
+        void UpdateChat(Entities.Models.Chat chat);
+        void UpdateRecord(Record record);
         void Save();
 
         User GetUserById(int id);
