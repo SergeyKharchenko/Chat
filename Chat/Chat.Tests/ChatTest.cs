@@ -102,7 +102,7 @@ namespace Chat.Tests
 
             authorizationServiceMock = new Mock<IAuthorizationService>();
             authorizationServiceMock.Setup(service => service.GetCurrentUser()).Returns(new User());
-            chatController = new ChatController(chatRepositoryMock.Object, null, authorizationServiceMock.Object);
+            chatController = new ChatController(chatRepositoryMock.Object, null, null, authorizationServiceMock.Object);
         }
 
         [TestMethod]

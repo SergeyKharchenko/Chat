@@ -22,6 +22,7 @@ namespace Chat.Infrastructure.Concrete
             kernel.Bind<IAuthorizationService>().To<WebSecurityAuthorizationService>();
             kernel.Bind<IEntityRepository<Entities.Models.Chat>>().To<EntityRepository<Entities.Models.Chat>>();
             kernel.Bind<IEntityRepository<Record>>().To<EntityRepository<Record>>();
+            kernel.Bind<IEntityRepository<Member>>().To<EntityRepository<Member>>();
         }
 
         public object GetService(Type serviceType)

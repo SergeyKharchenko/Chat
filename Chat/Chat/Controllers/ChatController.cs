@@ -13,17 +13,20 @@ namespace Chat.Controllers
     [InitializeSimpleMembership]
     public class ChatController : Controller
     {
+        private readonly IAuthorizationService authorizationService;
         private readonly IEntityRepository<Entities.Models.Chat> chatRepository;
         private readonly IEntityRepository<Record> recordRepository;
-        private readonly IAuthorizationService authorizationService;
+        private readonly IEntityRepository<Member> memberRepository;
 
-        public ChatController(IEntityRepository<Entities.Models.Chat> chatRepository, 
-            IEntityRepository<Record> recordRepository,
-            IAuthorizationService authorizationService)
+        public ChatController(IEntityRepository<Entities.Models.Chat> chatRepository,
+                              IEntityRepository<Record> recordRepository,
+                              IEntityRepository<Member> memberRepository,
+                              IAuthorizationService authorizationService)
         {
+            this.authorizationService = authorizationService;
             this.chatRepository = chatRepository;
             this.recordRepository = recordRepository;
-            this.authorizationService = authorizationService;
+            this.memberRepository = memberRepository;
         }
 
         [AllowAnonymous]
@@ -75,6 +78,13 @@ namespace Chat.Controllers
         {
             var currentUser = authorizationService.GetCurrentUser();
             var chat = chatRepository.GetById(id);
+            if (!memberRepository.Entities.Any(member => member.ChatId == chat.ChatId && member.UserId == currentUser.UserId))
+                memberRepository.Create(new Member
+                    {
+                        UserId = currentUser.UserId,
+                        ChatId = chat.ChatId,
+                        EnterTime = DateTime.Now
+                    });
             chat.Members.Remove(chat.Members.FirstOrDefault(member => member.UserId == currentUser.UserId));
             return View("Room", chat);
         }

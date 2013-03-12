@@ -27,6 +27,7 @@ namespace Chat.Infrastructure.Concrete
         public void Create(TEntity entity)
         {
             dbSet.Add(entity);
+            Save();
         }
 
         public void Update(TEntity entity)

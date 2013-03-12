@@ -16,6 +16,7 @@ namespace Entities.Core.Concrete
         public DbSet<User> Users { get; set; }
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Record> Records { get; set; }
+        public DbSet<Member> Members { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
