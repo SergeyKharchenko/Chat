@@ -25,18 +25,18 @@
 
 @section footer
 {
-    <div id="chat-new-message">
-        @Html.TextArea("new_message", new {data_action = Url.Action("AddRecord")})
-        <input id="enter-button" type="button" value="Enter"/>
-    </div>   
+	<div id="chat-new-message">
+		@Html.TextArea("new_message", new {data_action = Url.Action("AddRecord")})
+		<input id="enter-button" type="button" value="Enter"/>
+	</div>   
 }
 
 @section scripts
 {
-    <script src="~/Scripts/Custom/load-records.js"></script>
-    <script id="record-pattern" type="record-pattern">
-        <div data-creation-date="{creation-date}">
-            {text}
-        </div>
-    </script>
+	<script src="~/Scripts/Custom/load-records.js"></script>
+	<script id="record-pattern" type="record-pattern">
+		<div data-creation-date="{creation-date}">
+			{text}
+		</div>
+	</script>
 }

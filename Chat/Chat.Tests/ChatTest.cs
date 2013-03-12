@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Chat.Controllers;
 using Chat.Infrastructure.Abstract;
+using Chat.Infrastructure.Concrete;
 using Chat.ViewModels;
 using Entities.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -102,7 +103,13 @@ namespace Chat.Tests
 
             authorizationServiceMock = new Mock<IAuthorizationService>();
             authorizationServiceMock.Setup(service => service.GetCurrentUser()).Returns(new User());
-            chatController = new ChatController(chatRepositoryMock.Object, null, null, authorizationServiceMock.Object);
+
+            var memberRepositoryMock = new Mock<IEntityRepository<Member>>();
+
+            chatController = new ChatController(chatRepositoryMock.Object,
+                                                null,
+                                                memberRepositoryMock.Object,
+                                                authorizationServiceMock.Object);
         }
 
         [TestMethod]
