@@ -172,8 +172,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Abstract\IAuthorizationService.cs" />
-    <Compile Include="Infrastructure\Abstract\IChatRepository.cs" />
-    <Compile Include="Infrastructure\Concrete\ChatRepository.cs" />
+    <Compile Include="Infrastructure\Abstract\IEntityRepository.cs" />
+    <Compile Include="Infrastructure\Concrete\EntityRepository.cs" />
     <Compile Include="Infrastructure\Concrete\DbSeeder.cs" />
     <Compile Include="Infrastructure\Concrete\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Concrete\WebSecurityAuthorizationService.cs" />

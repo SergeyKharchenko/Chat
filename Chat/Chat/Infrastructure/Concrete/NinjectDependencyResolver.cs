@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using Entities.Core;
 using Chat.Infrastructure.Abstract;
-using Entities.Core.Concrete;
+using Entities.Models;
 using Ninject;
 
 namespace Chat.Infrastructure.Concrete
@@ -21,7 +20,8 @@ namespace Chat.Infrastructure.Concrete
         private void AddBindigs()
         {
             kernel.Bind<IAuthorizationService>().To<WebSecurityAuthorizationService>();
-            kernel.Bind<IChatRepository>().To<ChatRepository>();
+            kernel.Bind<IEntityRepository<Entities.Models.Chat>>().To<EntityRepository<Entities.Models.Chat>>();
+            kernel.Bind<IEntityRepository<Record>>().To<EntityRepository<Record>>();
         }
 
         public object GetService(Type serviceType)

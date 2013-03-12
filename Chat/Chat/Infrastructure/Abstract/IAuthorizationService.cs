@@ -10,6 +10,6 @@ namespace Chat.Infrastructure.Abstract
 
         void Logout();
 
-        int GetCurrentuserId();
+        User GetCurrentUser();
     }
 }

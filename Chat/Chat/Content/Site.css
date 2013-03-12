@@ -88,8 +88,7 @@ textarea {
 	display: inline;
 }
 
-.chat-actions {
-	display: inline;
+#chat-actions {
 	padding-left: 10px;
 }
 

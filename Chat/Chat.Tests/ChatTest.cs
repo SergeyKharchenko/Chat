@@ -15,14 +15,14 @@ namespace Chat.Tests
     [TestClass]
     public class ChatTest
     {
-        private Mock<IChatRepository> chatRepositoryMock;
+        private Mock<IEntityRepository<Entities.Models.Chat>> chatRepositoryMock;
         private Mock<IAuthorizationService> authorizationServiceMock;
         private ChatController chatController;
 
         [TestInitialize]
         public void InitializeChats()
         {
-            chatRepositoryMock = new Mock<IChatRepository>();
+            chatRepositoryMock = new Mock<IEntityRepository<Entities.Models.Chat>>();
 
             var sergey = new User {Login = "Sergey"};
             var igor = new User {Login = "Igor"};
@@ -95,14 +95,14 @@ namespace Chat.Tests
                     new Member {User = maxim, Chat = chats[2], EnterTime = DateTime.Now}
                 };
 
-            chatRepositoryMock.Setup(repo => repo.Chats).Returns(chats.AsQueryable);
+            chatRepositoryMock.Setup(repo => repo.Entities).Returns(chats.AsQueryable);
 
-            chatRepositoryMock.Setup(repo => repo.GetChatById(It.IsAny<int>()))
-                .Returns((int id) => chatRepositoryMock.Object.Chats.Single(c => c.ChatId == id));
+            chatRepositoryMock.Setup(repo => repo.GetById(It.IsAny<int>()))
+                .Returns((int id) => chatRepositoryMock.Object.Entities.Single(c => c.ChatId == id));
 
             authorizationServiceMock = new Mock<IAuthorizationService>();
-            authorizationServiceMock.Setup(service => service.GetCurrentuserId()).Returns(1);
-            chatController = new ChatController(chatRepositoryMock.Object, authorizationServiceMock.Object);
+            authorizationServiceMock.Setup(service => service.GetCurrentUser()).Returns(new User());
+            chatController = new ChatController(chatRepositoryMock.Object, null, authorizationServiceMock.Object);
         }
 
         [TestMethod]
@@ -147,7 +147,7 @@ namespace Chat.Tests
             
             var view = chatController.Create(chat);
 
-            chatRepositoryMock.Verify(service => service.CreateChat(chat), Times.Once());
+            chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(RedirectToRouteResult));
         }
 
@@ -156,23 +156,21 @@ namespace Chat.Tests
         public void CreateChatUnsuccessTest()
         {           
             var chat = new Entities.Models.Chat {Title = "Test chat"};
-            chatRepositoryMock.Setup(service => service.CreateChat(chat)).Throws(new ArgumentException());
+            chatRepositoryMock.Setup(service => service.Create(chat)).Throws(new ArgumentException());
             
             var view = chatController.Create(chat);
 
-            chatRepositoryMock.Verify(service => service.CreateChat(chat), Times.Once());
+            chatRepositoryMock.Verify(service => service.Create(chat), Times.Once());
             Assert.IsInstanceOfType(view, typeof(ViewResult));
         }
 
         [TestMethod]
         public void CanEnterTheRoomTest()
         {           
-            chatRepositoryMock.Setup(service => service.GetUserById(It.IsAny<int>())).Returns(new User());
-            
             var view = chatController.JoinRoom(1);
 
-            chatRepositoryMock.Verify(service => service.GetChatById(1), Times.Once());
-            chatRepositoryMock.Verify(service => service.GetUserById(It.IsAny<int>()), Times.Once());
+            chatRepositoryMock.Verify(service => service.GetById(1), Times.Once());
+            chatRepositoryMock.Verify(service => service.GetById(It.IsAny<int>()), Times.Once());
             Assert.IsInstanceOfType(view, typeof(ViewResult));
             Assert.AreEqual((view.Model as Entities.Models.Chat).ChatId, 1);
         }

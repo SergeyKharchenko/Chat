@@ -7,6 +7,8 @@ namespace Chat.Infrastructure.Concrete
 {
     public class WebSecurityAuthorizationService : IAuthorizationService
     {
+        private readonly ChatContext context = new ChatContext();
+
         public void Register(string login, string password)
         {
             WebSecurity.CreateUserAndAccount(login, password);
@@ -22,9 +24,9 @@ namespace Chat.Infrastructure.Concrete
             WebSecurity.Logout();
         }
 
-        public int GetCurrentuserId()
+        public User GetCurrentUser()
         {
-            return WebSecurity.CurrentUserId;
+            return context.Users.Find(WebSecurity.CurrentUserId);
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿@model Entities.Models.Chat
 @{
 	ViewBag.Title = "Chat " + Model.Title;
-}	
-@Html.Hidden("chat-id", Model.ChatId, new {data_action = Url.Action("LoadRoom")})
+}
+	
+@Html.Hidden("chat-id", Model.ChatId, new {data_action = Url.Action("LoadRecords")})
 
 <div id="chat-window-left">
 	<div id="messages-container">

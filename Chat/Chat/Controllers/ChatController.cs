@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Chat.Filters;
@@ -14,24 +13,28 @@ namespace Chat.Controllers
     [InitializeSimpleMembership]
     public class ChatController : Controller
     {
-        private readonly IChatRepository chatRepository;
+        private readonly IEntityRepository<Entities.Models.Chat> chatRepository;
+        private readonly IEntityRepository<Record> recordRepository;
         private readonly IAuthorizationService authorizationService;
 
-        public ChatController(IChatRepository chatRepository, IAuthorizationService authorizationService)
+        public ChatController(IEntityRepository<Entities.Models.Chat> chatRepository, 
+            IEntityRepository<Record> recordRepository,
+            IAuthorizationService authorizationService)
         {
             this.chatRepository = chatRepository;
+            this.recordRepository = recordRepository;
             this.authorizationService = authorizationService;
         }
 
         [AllowAnonymous]
         public ViewResult List()
         {
-            return View(chatRepository.Chats);
+            return View(chatRepository.Entities);
         }
 
         public ViewResult Info(int id)
         {
-            var chat = chatRepository.GetChatById(id);
+            var chat = chatRepository.GetById(id);
             var chatInfo = new ChatInfo
                 {
                     Id = chat.ChatId,
@@ -57,26 +60,29 @@ namespace Chat.Controllers
                 return View();
 
             chat.CreatorionDate = DateTime.Now;
-            var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
+            var currentUser = authorizationService.GetCurrentUser();
             chat.Creator = currentUser;
-            chat.Members = new Collection<Member> {new Member {User = currentUser, Chat = chat, EnterTime = DateTime.Now}};
-            chatRepository.CreateChat(chat);
+            chat.Members = new Collection<Member>
+                {
+                    new Member {User = currentUser, Chat = chat, EnterTime = DateTime.Now}
+                };
+            chatRepository.Create(chat);
 
             return RedirectToAction("List");
         }
 
         public ViewResult JoinRoom(int id)
         {
-            var currentUser = chatRepository.GetUserById(authorizationService.GetCurrentuserId());
-            var chat = chatRepository.GetChatById(id);
+            var currentUser = authorizationService.GetCurrentUser();
+            var chat = chatRepository.GetById(id);
             chat.Members.Remove(chat.Members.FirstOrDefault(member => member.UserId == currentUser.UserId));
             return View("Room", chat);
         }
 
         [HttpPost]
-        public JsonResult LoadRoom(int chatId, long lastRecordsCreationDate)
+        public JsonResult LoadRecords(int chatId, long lastRecordsCreationDate)
         {
-            var chat = chatRepository.GetChatById(chatId);
+            var chat = chatRepository.GetById(chatId);
             var records = chat.Records.Where(record => record.CreationDate.ToBinary() > lastRecordsCreationDate)
                               .Select(
                                   record =>
@@ -90,11 +96,11 @@ namespace Chat.Controllers
             var record = new Record
                 {
                     CreationDate = DateTime.Now,
-                    CreatorId = authorizationService.GetCurrentuserId(),
+                    Creator = authorizationService.GetCurrentUser(),
                     ChatId = chatId,
                     Text = text
                 };
-            chatRepository.CreateRecord(record);
+            recordRepository.Create(record);
             return new EmptyResult();
         }
     }
