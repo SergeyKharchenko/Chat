@@ -37,15 +37,16 @@ namespace Chat.Controllers
 
         public ViewResult Info(int roomId)
         {
-            var chat = roomRepository.GetById(roomId);
-            var chatInfo = new ChatInfo
+            var room = roomRepository.GetById(roomId);
+            var chatInfo = new RoomInfo
                 {
-                    Id = chat.RoomId,
-                    Title = chat.Title,
-                    Creator = chat.Creator.Login,
-                    LastActivity = chat.LastActivity,
-                    Members = (from member in chat.Members select member.User.Login).ToArray(),
-                    Records = chat.Records.Reverse().Take(3).Reverse().ToArray()
+                    Id = room.RoomId,
+                    Title = room.Title,
+                    Creator = room.Creator.Login,
+                    CreationDate = room.CreatorionDate,
+                    LastActivity = room.LastActivity,
+                    Members = (from member in room.Members select member.User.Login).ToArray(),
+                    Records = room.Records.Reverse().Take(3).Reverse().ToArray()
                 };
             return View(chatInfo);
         }
@@ -106,7 +107,7 @@ namespace Chat.Controllers
             var record = new Record
                 {
                     CreationDate = DateTime.Now,
-                    Creator = authorizationService.GetCurrentUser(),
+                    CreatorId = authorizationService.GetCurrentUser().UserId,
                     RoomId = roomId,
                     Text = text
                 };

@@ -16,13 +16,19 @@ namespace Chat
             routes.MapRoute(
                 name: "Room",
                 url: "Chat/Room/{roomId}",
-                defaults: new { controller = "Chat", action = "JoinRoom", roomId = UrlParameter.Optional }
+                defaults: new { controller = "Room", action = "JoinRoom", roomId = UrlParameter.Optional }
                 );
 
             routes.MapRoute(
                 name: "Chat",
+                url: "Chat/{action}/{roomId}",
+                defaults: new { controller = "Room", action = "List", roomId = UrlParameter.Optional }
+                );
+
+            routes.MapRoute(
+                name: "Default",
                 url: "{controller}/{action}/{roomId}",
-                defaults: new { controller = "Chat", action = "List", roomId = UrlParameter.Optional }
+                defaults: new { controller = "Room", action = "List", roomId = UrlParameter.Optional }
                 );
         }
     }
