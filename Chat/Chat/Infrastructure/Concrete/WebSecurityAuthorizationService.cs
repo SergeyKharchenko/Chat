@@ -1,4 +1,6 @@
-﻿using Chat.Infrastructure.Abstract;
+﻿using System.Data;
+using System.Data.Objects;
+using Chat.Infrastructure.Abstract;
 using Entities.Core.Concrete;
 using Entities.Models;
 using WebMatrix.WebData;
@@ -26,7 +28,9 @@ namespace Chat.Infrastructure.Concrete
 
         public User GetCurrentUser()
         {
-            return context.Users.Find(WebSecurity.CurrentUserId);
+            var user = context.Users.Find(WebSecurity.CurrentUserId);
+            context.Entry(user).State = EntityState.Detached;
+            return user;
         }
     }
 }
