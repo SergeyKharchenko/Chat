@@ -14,10 +14,10 @@ namespace Chat.Tests
         [TestMethod]
         public void TestIncomingRoutes()
         {
-            IncomingRouteMatchTest("~/", "Chat", "List");
-            IncomingRouteMatchTest("~/Chat", "Chat", "List");
-            IncomingRouteMatchTest("~/Chat/Info/1", "Chat", "Info", new { roomId = "1" });
-            IncomingRouteMatchTest("~/Chat/Room/1", "Chat", "JoinRoom", new { roomId = "1" });
+            IncomingRouteMatchTest("~/", "Room", "List");
+            IncomingRouteMatchTest("~/Room", "Room", "List");
+            IncomingRouteMatchTest("~/Room/Info/1", "Room", "Info", new { roomId = "1" });
+            IncomingRouteMatchTest("~/Room/1", "Room", "JoinRoom", new { roomId = "1" });
         }
 
         private static void IncomingRouteMatchTest(string url, string controller, string action,
@@ -38,15 +38,15 @@ namespace Chat.Tests
         [TestMethod]
         public void TestOutgoingRoutes()
         {
-            OutgoingRouteMatchTest("List", "Chat", null, "/");
-            OutgoingRouteMatchTest("Info", "Chat", new RouteValueDictionary
+            OutgoingRouteMatchTest("List", "Room", null, "/Room");
+            OutgoingRouteMatchTest("Info", "Room", new RouteValueDictionary
                 {
                     {"roomId", "1"}
-                }, "/Chat/Info/1");
-            OutgoingRouteMatchTest("JoinRoom", "Chat", new RouteValueDictionary
+                }, "/Room/Info/1");
+            OutgoingRouteMatchTest("JoinRoom", "Room", new RouteValueDictionary
                 {
                     {"roomId", "1"}
-                }, "/Chat/Room/1");
+                }, "/Room/1");
         }
 
         private static void OutgoingRouteMatchTest(string action, string controller,
