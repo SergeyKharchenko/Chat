@@ -104,12 +104,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountTest.cs" />
+    <Compile Include="Tests\AccountTest.cs" />
     <Compile Include="Dummy\DummyDbSet.cs" />
-    <Compile Include="RepositoryTest.cs" />
-    <Compile Include="RoomTest.cs" />
+    <Compile Include="Tests\RepositoryTest.cs" />
+    <Compile Include="Tests\RoomTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RouteTests.cs" />
+    <Compile Include="Tests\RouteTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

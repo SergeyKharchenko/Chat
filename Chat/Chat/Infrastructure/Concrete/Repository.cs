@@ -5,17 +5,16 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using Chat.Infrastructure.Abstract;
+using Entities.Models;
 
 namespace Chat.Infrastructure.Concrete
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
     {
-        private readonly DbContext context;
         private readonly IDbSet<TEntity> dbSet;
 
-        public Repository(DbContext context, IDbSet<TEntity> dbSet)
+        public Repository(IDbSet<TEntity> dbSet)
         {
-            this.context = context;
             this.dbSet = dbSet;
         }
 
@@ -40,16 +39,8 @@ namespace Chat.Infrastructure.Concrete
             dbSet.Add(entity);
         }
 
-        public void Update(TEntity entity)
-        {
-            dbSet.Attach(entity);
-            context.Entry(entity).State = EntityState.Modified;
-        }
-
         public void Remove(TEntity entity)
         {
-            if (entity == null)
-                return;
             dbSet.Remove(entity);
         }
     }

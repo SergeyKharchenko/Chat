@@ -8,13 +8,8 @@ using System.Linq;
 namespace Entities.Models
 {
     [Table("Room")]
-    public class Room
+    public class Room : Entity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [HiddenInput(DisplayValue = false)]
-        public int RoomId { get; set; }
-
         [Required]
         [StringLength(50, ErrorMessage = "The {0} must not be more than 50 characters")]
         public string Title { get; set; }

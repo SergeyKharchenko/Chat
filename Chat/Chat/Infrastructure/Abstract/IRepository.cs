@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using Entities.Models;
 
 namespace Chat.Infrastructure.Abstract
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity> where TEntity : Entity
     {
         IEnumerable<TEntity> Entities { get; }
 
@@ -14,7 +15,6 @@ namespace Chat.Infrastructure.Abstract
         TEntity FindById(int id);
 
         void Add(TEntity entity);
-        void Update(TEntity entity);
         void Remove(TEntity entity);
     }
 }

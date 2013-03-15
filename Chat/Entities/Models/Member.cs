@@ -6,12 +6,8 @@ using System.Web.Mvc;
 namespace Entities.Models
 {
     [Table("Member")]
-    public class Member
+    public class Member : Entity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MemberId { get; set; }
-
         public int UserId { get; set; }
         public virtual User User { get; set; }
 

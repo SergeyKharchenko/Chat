@@ -5,8 +5,8 @@
         <i>@Model.Title</i> - <b>@Model.Creator.Login</b>
     </div>
     <span id="chat-actions">
-        @Html.ActionLink("Info", "Info", "Room", new {roomId = Model.RoomId}, null)
-        @Html.ActionLink("Join", "JoinRoom", "Room", new {roomId = Model.RoomId}, null)
+        @Html.ActionLink("Info", "Info", "Room", new {roomId = Model.Id}, null)
+        @Html.ActionLink("Join", "JoinRoom", "Room", new {roomId = Model.Id}, null)
     </span>
     <div class="Room-last-activity">
         <div>

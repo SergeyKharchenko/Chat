@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Web.Mvc;
 using Chat.Controllers;
 using Chat.Infrastructure.Abstract;
-using Chat.Infrastructure.Concrete;
-using Chat.ViewModels;
 using Entities.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Chat.Tests
+namespace Chat.Tests.Tests
 {
     [TestClass]
     public class RoomTest

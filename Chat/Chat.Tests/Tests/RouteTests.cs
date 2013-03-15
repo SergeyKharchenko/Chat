@@ -6,7 +6,7 @@ using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Chat.Tests
+namespace Chat.Tests.Tests
 {
     [TestClass]
     public class RouteTests

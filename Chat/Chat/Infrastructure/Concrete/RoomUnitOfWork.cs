@@ -23,18 +23,14 @@ namespace Chat.Infrastructure.Concrete
         {
             AuthorizationService = new WebSecurityAuthorizationService(context);
 
-            UserRepository = new Repository<User>(context, context.Set<User>());
-            RoomRepository = new Repository<Room>(context, context.Set<Room>());
-            RecordRepository = new Repository<Record>(context, context.Set<Record>());
-            MemberRepository = new Repository<Member>(context, context.Set<Member>());
-        }
-
-        public void Commit()
-        {
-            context.SaveChanges();
+            UserRepository = new Repository<User>(context.Set<User>());
+            RoomRepository = new Repository<Room>(context.Set<Room>());
+            RecordRepository = new Repository<Record>(context.Set<Record>());
+            MemberRepository = new Repository<Member>(context.Set<Member>());
         }
 
         public IEnumerable<Room> Rooms { get { return RoomRepository.Entities; } }
+
         public Room FindRoomById(int id)
         {
             return RoomRepository.FindById(id);
@@ -55,12 +51,14 @@ namespace Chat.Infrastructure.Concrete
         public Room JoinRoom(int id)
         {
             var userId = AuthorizationService.GetCurrentUserId();
-            var room = RoomRepository.FindById(id);
-            if (!MemberRepository.Entities.Any(member => member.RoomId == room.RoomId && member.UserId == userId))
+            var room = RoomRepository.FindBy(filterCriterion: r => r.Id == id,
+                                             includeCriterion: r => r.Records)
+                                     .Single();
+            if (!MemberRepository.Entities.Any(member => member.RoomId == room.Id && member.UserId == userId))
                 MemberRepository.Add(new Member
                 {
                     UserId = userId,
-                    RoomId = room.RoomId,
+                    RoomId = room.Id,
                     EnterTime = DateTime.Now
                 });
             return room;
@@ -87,7 +85,7 @@ namespace Chat.Infrastructure.Concrete
 
         public IEnumerable<Record> GetRecordsAfter(int roomId, long binaryDate)
         {
-            var chat = RoomRepository.FindBy(filterCriterion: room => room.RoomId == roomId,
+            var chat = RoomRepository.FindBy(filterCriterion: room => room.Id == roomId,
                                              includeCriterion: room => room.Records)
                                      .Single();
             var records = chat.Records.Where(record => record.CreationDate.ToBinary() > binaryDate);
@@ -97,6 +95,11 @@ namespace Chat.Infrastructure.Concrete
         public int GetCurrentUserId()
         {
             return AuthorizationService.GetCurrentUserId();
+        }
+
+        public void Commit()
+        {
+            context.SaveChanges();
         }
     }
 }

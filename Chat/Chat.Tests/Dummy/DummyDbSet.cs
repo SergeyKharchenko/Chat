@@ -5,10 +5,11 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using Entities.Models;
 
 namespace Chat.Tests.Dummy
 {
-    public class DummyDbSet<TEntity> : IDbSet<TEntity> where TEntity : class
+    public class DummyDbSet<TEntity> : IDbSet<TEntity> where TEntity : Entity
     {
         private readonly List<TEntity> entities;
         private readonly IQueryable<TEntity> queryable;
@@ -51,7 +52,8 @@ namespace Chat.Tests.Dummy
 
         public TEntity Find(params object[] keyValues)
         {
-            throw new NotImplementedException();
+            var id = (int) keyValues.First();
+            return entities.First(entity => entity.Id == id);
         }
 
         public TEntity Add(TEntity entity)

@@ -29,7 +29,7 @@ namespace Chat.Controllers
             var room = unitOfWork.FindRoomById(roomId);
             var chatInfo = new RoomInfo
                 {
-                    Id = room.RoomId,
+                    Id = room.Id,
                     Title = room.Title,
                     Creator = room.Creator.Login,
                     CreationDate = room.CreatorionDate,

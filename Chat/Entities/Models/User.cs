@@ -6,13 +6,8 @@ using System.Web.Mvc;
 namespace Entities.Models
 {
     [Table("User")]
-    public class User
+    public class User : Entity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [HiddenInput(DisplayValue = false)]
-        public int UserId { get; set; }
-
         public string Login { get; set; }
 
         public virtual ICollection<Room> CreatedRooms { get; set; }

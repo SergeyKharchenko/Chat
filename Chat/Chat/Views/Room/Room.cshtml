@@ -4,7 +4,7 @@
 }
 	
 
-@Html.Hidden("room-id", Model.RoomId, new {data_action = Url.Action("LoadRecords")})
+@Html.Hidden("room-id", Model.Id, new {data_action = Url.Action("LoadRecords")})
 
 <div id="chat-window-left">
 	<div id="messages-container">
@@ -29,7 +29,7 @@
     <div id="chat-window-bottom">
         @Html.TextArea("new-message", new {data_action = Url.Action("AddRecord")})
         <input id="enter-button" type="button" value="Enter" />
-        @Html.ActionLink("Exit", "ExitRoom", "Room", new {roomId = Model.RoomId}, new {id = "exit-link"})
+        @Html.ActionLink("Exit", "ExitRoom", "Room", new {roomId = Model.Id}, new {id = "exit-link"})
     </div>   
 }
 

@@ -6,13 +6,8 @@ using System.Web.Mvc;
 namespace Entities.Models
 {
     [Table("Record")]
-    public class Record
+    public class Record : Entity
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [HiddenInput(DisplayValue = false)]
-        public int RecordId { get; set; }
-
         [Required]
         public string Text { get; set; }
 
