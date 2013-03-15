@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Chat.Filters;
 using Chat.Infrastructure.Abstract;
@@ -13,31 +11,22 @@ namespace Chat.Controllers
     [InitializeSimpleMembership]
     public class RoomController : Controller
     {
-        private readonly IAuthorizationService authorizationService;
-        private readonly IEntityRepository<Room> roomRepository;
-        private readonly IEntityRepository<Record> recordRepository;
-        private readonly IEntityRepository<Member> memberRepository;
+        private readonly IRoomUnitOfWork unitOfWork;
 
-        public RoomController(IEntityRepository<Room> roomRepository,
-                              IEntityRepository<Record> recordRepository,
-                              IEntityRepository<Member> memberRepository,
-                              IAuthorizationService authorizationService)
+        public RoomController(IRoomUnitOfWork unitOfWork)
         {
-            this.authorizationService = authorizationService;
-            this.roomRepository = roomRepository;
-            this.recordRepository = recordRepository;
-            this.memberRepository = memberRepository;
+            this.unitOfWork = unitOfWork;
         }
 
         [AllowAnonymous]
         public ViewResult List()
         {
-            return View(roomRepository.Entities);
+            return View(unitOfWork.Rooms);
         }
-
+        
         public ViewResult Info(int roomId)
         {
-            var room = roomRepository.GetById(roomId);
+            var room = unitOfWork.FindRoomById(roomId);
             var chatInfo = new RoomInfo
                 {
                     Id = room.RoomId,
@@ -63,65 +52,40 @@ namespace Chat.Controllers
             if (string.IsNullOrEmpty(room.Title))
                 return View();
 
-            room.CreatorionDate = DateTime.Now;
-            var currentUser = authorizationService.GetCurrentUser();
-            room.Creator = currentUser;
-            room.Members = new Collection<Member>
-                {
-                    new Member {User = currentUser, Room = room, EnterTime = DateTime.Now}
-                };
-            roomRepository.Create(room);
-
+            unitOfWork.CreateRoom(room);
+            unitOfWork.Commit();
             return RedirectToAction("List");
         }
 
         public ViewResult JoinRoom(int roomId)
         {
-            var currentUser = authorizationService.GetCurrentUser();
-            var room = roomRepository.GetById(roomId);
-            if (!memberRepository.Entities.Any(member => member.RoomId == room.RoomId && member.UserId == currentUser.UserId))
-                memberRepository.Create(new Member
-                    {
-                        UserId = currentUser.UserId,
-                        RoomId = room.RoomId,
-                        EnterTime = DateTime.Now
-                    });
-            room.Members.Remove(room.Members.FirstOrDefault(member => member.UserId == currentUser.UserId));
+            var room = unitOfWork.JoinRoom(roomId);
+            unitOfWork.Commit();
+            var userId = unitOfWork.GetCurrentUserId();
+            room.Members.Remove(room.Members.FirstOrDefault(member => member.UserId == userId));
             return View("Room", room);
         }
 
         [HttpPost]
         public JsonResult LoadRecords(int roomId, long lastRecordsCreationDate)
         {
-            var chat = roomRepository.GetById(roomId);
-            var records = chat.Records.Where(record => record.CreationDate.ToBinary() > lastRecordsCreationDate)
-                              .Select(
-                                  record =>
-                                  new {Text = record.ToString(), CreationDate = record.CreationDate.ToBinary()});
+            var records = from record in unitOfWork.GetRecordsAfter(roomId, lastRecordsCreationDate)
+                          select new {Text = record.ToString(), CreationDate = record.CreationDate.ToBinary()};
             return Json(records);
         }
 
         [HttpPost]
         public ActionResult AddRecord(int roomId, string text)
         {
-            var record = new Record
-                {
-                    CreationDate = DateTime.Now,
-                    CreatorId = authorizationService.GetCurrentUser().UserId,
-                    RoomId = roomId,
-                    Text = text
-                };
-            recordRepository.Create(record);
+            unitOfWork.AddRecord(roomId, text);
+            unitOfWork.Commit();
             return new EmptyResult();
         }
 
         public RedirectToRouteResult ExitRoom(int roomId)
         {
-            var currentUser = authorizationService.GetCurrentUser();
-            var member =
-                memberRepository.Entities.FirstOrDefault(m => m.RoomId == roomId && m.UserId == currentUser.UserId);
-            memberRepository.Delete(member);
-
+            unitOfWork.ExitRoom(roomId);
+            unitOfWork.Commit();
             return RedirectToAction("List");
         }
     }

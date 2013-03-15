@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Web.Mvc;
 using Chat.Infrastructure.Abstract;
+using Entities.Core.Concrete;
 using Entities.Models;
 using Ninject;
 
@@ -19,10 +21,14 @@ namespace Chat.Infrastructure.Concrete
 
         private void AddBindigs()
         {
+            kernel.Bind<IRoomUnitOfWork>().To<RoomUnitOfWork>();
+
+            kernel.Bind<DbContext>().To<ChatContext>();
+            kernel.Bind(typeof(IDbSet<>)).To(typeof(IDbSet<>));
+
             kernel.Bind<IAuthorizationService>().To<WebSecurityAuthorizationService>();
-            kernel.Bind<IEntityRepository<Room>>().To<EntityRepository<Room>>();
-            kernel.Bind<IEntityRepository<Record>>().To<EntityRepository<Record>>();
-            kernel.Bind<IEntityRepository<Member>>().To<EntityRepository<Member>>();
+
+            kernel.Bind(typeof(IRepository<>)).To(typeof(Repository<>));            
         }
 
         public object GetService(Type serviceType)

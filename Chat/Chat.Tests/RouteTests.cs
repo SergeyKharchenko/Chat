@@ -17,7 +17,8 @@ namespace Chat.Tests
             IncomingRouteMatchTest("~/", "Room", "List");
             IncomingRouteMatchTest("~/Room", "Room", "List");
             IncomingRouteMatchTest("~/Room/Info/1", "Room", "Info", new { roomId = "1" });
-            IncomingRouteMatchTest("~/Room/1", "Room", "JoinRoom", new { roomId = "1" });
+            IncomingRouteMatchTest("~/Room/JoinRoom/1", "Room", "JoinRoom", new { roomId = "1" });
+            //IncomingRouteMatchTest("~/LoadRecords/1/2", "Room", "LoadRecords", new { roomId = "1", lastRecordsCreationDate = "2" });
         }
 
         private static void IncomingRouteMatchTest(string url, string controller, string action,
@@ -46,7 +47,7 @@ namespace Chat.Tests
             OutgoingRouteMatchTest("JoinRoom", "Room", new RouteValueDictionary
                 {
                     {"roomId", "1"}
-                }, "/Room/1");
+                }, "/Room/JoinRoom/1");
         }
 
         private static void OutgoingRouteMatchTest(string action, string controller,

@@ -9,7 +9,12 @@ namespace Chat.Infrastructure.Concrete
 {
     public class WebSecurityAuthorizationService : IAuthorizationService
     {
-        private readonly ChatContext context = new ChatContext();
+        private readonly ChatContext context;
+
+        public WebSecurityAuthorizationService(ChatContext context)
+        {
+            this.context = context;
+        }
 
         public void Register(string login, string password)
         {
@@ -31,6 +36,11 @@ namespace Chat.Infrastructure.Concrete
             var user = context.Users.Find(WebSecurity.CurrentUserId);
             context.Entry(user).State = EntityState.Detached;
             return user;
+        }
+
+        public int GetCurrentUserId()
+        {
+            return WebSecurity.CurrentUserId;
         }
     }
 }

@@ -105,6 +105,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountTest.cs" />
+    <Compile Include="Dummy\DummyDbSet.cs" />
+    <Compile Include="RepositoryTest.cs" />
     <Compile Include="RoomTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RouteTests.cs" />
