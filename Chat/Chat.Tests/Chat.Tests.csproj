@@ -110,6 +110,7 @@
     <Compile Include="Tests\RoomTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\RouteTests.cs" />
+    <Compile Include="Tests\RoomUnitOfWorkTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

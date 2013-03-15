@@ -5,6 +5,11 @@ namespace Chat.Infrastructure.Abstract
 {
     public interface IRoomUnitOfWork : IUnitOfWork
     {
+        IRepository<User> UserRepository { get; set; }
+        IRepository<Room> RoomRepository { get; set; }
+        IRepository<Record> RecordRepository { get; set; }
+        IRepository<Member> MemberRepository { get; set; }
+
         IEnumerable<Room> Rooms { get; }
         Room FindRoomById(int id);
         void CreateRoom(Room room);

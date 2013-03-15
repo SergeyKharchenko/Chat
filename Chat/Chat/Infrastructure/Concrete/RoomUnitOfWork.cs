@@ -88,7 +88,7 @@ namespace Chat.Infrastructure.Concrete
             var chat = RoomRepository.FindBy(filterCriterion: room => room.Id == roomId,
                                              includeCriterion: room => room.Records)
                                      .Single();
-            var records = chat.Records.Where(record => record.CreationDate.ToBinary() > binaryDate);
+            var records = chat.Records.Where(record => record.CreationDate > DateTime.FromBinary(binaryDate));
             return records;
         }
 
