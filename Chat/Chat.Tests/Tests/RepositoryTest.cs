@@ -1,4 +1,5 @@
-﻿using Chat.Infrastructure.Concrete;
+﻿using System;
+using Chat.Infrastructure.Concrete;
 using Chat.Tests.Dummy;
 using Entities.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,13 +35,14 @@ namespace Chat.Tests.Tests
             var repository = new Repository<User>(dbSet);
 
             repository.Remove(john);
+            repository.Remove(null);
 
             Assert.AreEqual(2, repository.Entities.Count());
             Assert.AreEqual("Tom", repository.Entities.First().Login);
         }
 
         [TestMethod]
-        public void FindByIdTest()
+        public void FindByIdSuccessTest()
         {
             var dbSet = new DummyDbSet<User>
                 {
@@ -54,6 +56,21 @@ namespace Chat.Tests.Tests
 
             Assert.AreEqual(1, user.Id);
             Assert.AreEqual("John", user.Login);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void FindByIdUnsuccessTest()
+        {
+            var dbSet = new DummyDbSet<User>
+                {
+                    new User {Id = 1, Login = "John"},
+                    new User {Id = 2, Login = "Tom"},
+                    new User {Id = 3, Login = "Eric"}
+                };
+            var repository = new Repository<User>(dbSet);
+
+            var user = repository.FindById(4);
         }
 
         [TestMethod]

@@ -67,9 +67,9 @@ namespace Chat.Controllers
         }
 
         [HttpPost]
-        public JsonResult LoadRecords(int roomId, long lastRecordsCreationDate)
+        public JsonResult LoadRecords(int roomId, long lastRecordCreationDate)
         {
-            var records = from record in unitOfWork.GetRecordsAfter(roomId, lastRecordsCreationDate)
+            var records = from record in unitOfWork.GetRecordsAfter(roomId, lastRecordCreationDate)
                           select new {Text = record.ToString(), CreationDate = record.CreationDate.ToBinary()};
             return Json(records);
         }

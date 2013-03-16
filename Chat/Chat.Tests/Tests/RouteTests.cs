@@ -14,15 +14,14 @@ namespace Chat.Tests.Tests
         [TestMethod]
         public void TestIncomingRoutes()
         {
-            IncomingRouteMatchTest("~/", "Room", "List");
-            IncomingRouteMatchTest("~/Room", "Room", "List");
-            IncomingRouteMatchTest("~/Room/Info/1", "Room", "Info", new { roomId = "1" });
-            IncomingRouteMatchTest("~/Room/JoinRoom/1", "Room", "JoinRoom", new { roomId = "1" });
-            //IncomingRouteMatchTest("~/LoadRecords/1/2", "Room", "LoadRecords", new { roomId = "1", lastRecordsCreationDate = "2" });
+            IncomingRouteMatchTest("~/", "List", "Room");
+            IncomingRouteMatchTest("~/Room", "List", "Room");
+            IncomingRouteMatchTest("~/Room/1/Info", "Info", "Room", new { roomId = "1" });
+            IncomingRouteMatchTest("~/Room/1", "JoinRoom", "Room", new { roomId = "1" });
+            IncomingRouteMatchTest("~/Room/1/LoadRecords", "LoadRecords", "Room", new { roomId = "1" });
         }
 
-        private static void IncomingRouteMatchTest(string url, string controller, string action,
-                                                   object routeProperties = null, string httpMethod = "GET")
+        private static void IncomingRouteMatchTest(string url, string action, string controller, object routeProperties = null, string httpMethod = "GET")
         {
             // Arrange
             var routes = new RouteCollection();
@@ -39,15 +38,20 @@ namespace Chat.Tests.Tests
         [TestMethod]
         public void TestOutgoingRoutes()
         {
-            OutgoingRouteMatchTest("List", "Room", null, "/Room");
+            OutgoingRouteMatchTest("List", "Room", null, "/");
             OutgoingRouteMatchTest("Info", "Room", new RouteValueDictionary
                 {
                     {"roomId", "1"}
-                }, "/Room/Info/1");
+                }, "/Room/1/Info");
             OutgoingRouteMatchTest("JoinRoom", "Room", new RouteValueDictionary
                 {
                     {"roomId", "1"}
-                }, "/Room/JoinRoom/1");
+                }, "/Room/1");
+            OutgoingRouteMatchTest("LoadRecords", "Room", new RouteValueDictionary
+                {
+                    {"roomId", "1"},
+                    {"lastRecordCreationDate", "2"}
+                }, "/Room/1/LoadRecords?lastRecordCreationDate=2");
         }
 
         private static void OutgoingRouteMatchTest(string action, string controller,
