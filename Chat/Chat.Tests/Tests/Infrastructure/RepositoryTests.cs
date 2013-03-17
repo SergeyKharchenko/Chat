@@ -5,10 +5,10 @@ using Entities.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-namespace Chat.Tests.Tests
+namespace Chat.Tests.Tests.Infrastructure
 {
     [TestClass]
-    public class RepositoryTest
+    public class RepositoryTests
     {
         [TestMethod]
         public void AddTest()

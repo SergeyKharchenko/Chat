@@ -184,6 +184,7 @@
     <Compile Include="Infrastructure\Concrete\RoomUnitOfWork.cs" />
     <Compile Include="Infrastructure\Concrete\WebSecurityAuthorizationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\JsonRecord.cs" />
     <Compile Include="ViewModels\RoomInfo.cs" />
     <Compile Include="ViewModels\UserLogin.cs" />
     <Compile Include="ViewModels\UserRegistration.cs" />

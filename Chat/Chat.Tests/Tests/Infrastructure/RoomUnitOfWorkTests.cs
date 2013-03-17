@@ -8,17 +8,11 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Linq;
 
-namespace Chat.Tests.Tests
+namespace Chat.Tests.Tests.Infrastructure
 {
     [TestClass]
-    public class RoomUnitOfWorkTest
+    public class RoomUnitOfWorkTests
     {
-        [TestInitialize]
-        public void Initialize()
-        {
-            
-        }
-
         [TestMethod]
         public void GetAllRoomsTest()
         {

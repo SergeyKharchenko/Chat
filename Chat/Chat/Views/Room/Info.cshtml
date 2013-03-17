@@ -7,14 +7,14 @@
 <h2>@Model.Title Info</h2>
 
 <p>
-    Was created by <b>@Model.Creator</b><br/>
+    Was created by <b>@Model.CreatorName</b><br/>
     Last activity: @Html.DisplayFor(chat => chat.LastActivity)
 </p>
 
 <div class="chat-members">
     Members:
     <ul class="chat-members-list">
-        @foreach (var member in Model.Members)
+        @foreach (var member in Model.MemberNames)
         {
             <li>
                 @member
@@ -44,5 +44,5 @@
 
 <div>
     @Html.ActionLink("Back to Room list", "List")<br/>
-    @Html.ActionLink("Join", "JoinRoom", new {roomId = Model.Id})
+    @Html.ActionLink("Join", "Join", new {roomId = Model.Id})
 </div>

@@ -6,10 +6,10 @@ using Chat.ViewModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace Chat.Tests.Tests
+namespace Chat.Tests.Tests.Controller
 {
     [TestClass]
-    public class AccountTest
+    public class AccountControllerTests
     {
         [TestMethod]
         public void RegisterSuccessTest()

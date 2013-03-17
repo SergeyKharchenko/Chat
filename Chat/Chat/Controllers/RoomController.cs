@@ -27,17 +27,8 @@ namespace Chat.Controllers
         public ViewResult Info(int roomId)
         {
             var room = unitOfWork.FindRoomById(roomId);
-            var chatInfo = new RoomInfo
-                {
-                    Id = room.Id,
-                    Title = room.Title,
-                    Creator = room.Creator.Login,
-                    CreationDate = room.CreatorionDate,
-                    LastActivity = room.LastActivity,
-                    Members = (from member in room.Members select member.User.Login).ToArray(),
-                    Records = room.Records.Reverse().Take(3).Reverse().ToArray()
-                };
-            return View(chatInfo);
+            var roomInfo = new RoomInfo(room);
+            return View(roomInfo);
         }
 
         public ViewResult Create()
@@ -57,7 +48,7 @@ namespace Chat.Controllers
             return RedirectToAction("List");
         }
 
-        public ViewResult JoinRoom(int roomId)
+        public ViewResult Join(int roomId)
         {
             var room = unitOfWork.JoinRoom(roomId);
             unitOfWork.Commit();
@@ -70,19 +61,20 @@ namespace Chat.Controllers
         public JsonResult LoadRecords(int roomId, long lastRecordCreationDate)
         {
             var records = from record in unitOfWork.GetRecordsAfter(roomId, lastRecordCreationDate)
-                          select new {Text = record.ToString(), CreationDate = record.CreationDate.ToBinary()};
+                          select
+                              new JsonRecord {Text = record.ToString(), CreationDate = record.CreationDate.ToBinary()};
             return Json(records);
         }
 
         [HttpPost]
-        public ActionResult AddRecord(int roomId, string text)
+        public EmptyResult AddRecord(int roomId, string text)
         {
             unitOfWork.AddRecord(roomId, text);
             unitOfWork.Commit();
             return new EmptyResult();
         }
 
-        public RedirectToRouteResult ExitRoom(int roomId)
+        public RedirectToRouteResult Exit(int roomId)
         {
             unitOfWork.ExitRoom(roomId);
             unitOfWork.Commit();
