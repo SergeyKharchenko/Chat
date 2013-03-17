@@ -18,6 +18,7 @@ namespace Chat.Infrastructure.Abstract
 
         void AddRecord(int roomId, string recordText);
         IEnumerable<Record> GetRecordsAfter(int roomId, long binaryDate);
+        IEnumerable<Room> GetCurrentUserRooms();
 
         int GetCurrentUserId();
     }

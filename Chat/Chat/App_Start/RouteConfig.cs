@@ -17,7 +17,8 @@ namespace Chat
             routes.MapRoute(
                 name: "Room",
                 url: "Room/{roomId}/{action}",
-                defaults: new { controller = "Room", action = "Join" }
+                defaults: new { controller = "Room", action = "Join" },
+                constraints: new { roomId = "^\\d+$"}
                 );
 
             routes.MapRoute(

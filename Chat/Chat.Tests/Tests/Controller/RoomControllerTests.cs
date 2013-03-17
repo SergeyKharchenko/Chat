@@ -160,5 +160,24 @@ namespace Chat.Tests.Tests.Controller
             mock.Verify(unit => unit.Commit(), Times.Once());
             Assert.AreEqual("List", view.RouteValues["action"]);
         }
+
+        [TestMethod]
+        public void RoomsPartialTest()
+        {
+            mock.Setup(unit => unit.GetCurrentUserRooms())
+                .Returns(new Collection<Room>
+                    {
+                        new Room {Id = 1, Title = "Amazing Room"},
+                        new Room {Id = 2, Title = "Good Room"}
+                    });
+
+            var jsonData = controller.RoomsPartial();
+            var rooms = jsonData.Data as IEnumerable<JsonRoom>;
+
+            Assert.IsNotNull(rooms);
+            mock.Verify(unit => unit.GetCurrentUserRooms(), Times.Once());
+            Assert.AreEqual(2, rooms.Count());
+            Assert.AreEqual("Amazing Room", rooms.First().Title);
+        }
     } 
 }

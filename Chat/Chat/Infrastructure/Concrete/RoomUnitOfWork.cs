@@ -85,11 +85,19 @@ namespace Chat.Infrastructure.Concrete
 
         public IEnumerable<Record> GetRecordsAfter(int roomId, long binaryDate)
         {
-            var chat = RoomRepository.FindBy(filterCriterion: room => room.Id == roomId,
-                                             includeCriterion: room => room.Records)
+            var room = RoomRepository.FindBy(filterCriterion: r => r.Id == roomId,
+                                             includeCriterion: r => r.Records)
                                      .Single();
-            var records = chat.Records.Where(record => record.CreationDate > DateTime.FromBinary(binaryDate));
+            var records = room.Records.Where(record => record.CreationDate > DateTime.FromBinary(binaryDate));
             return records;
+        }
+
+        public IEnumerable<Room> GetCurrentUserRooms()
+        {
+            var currentUserId = AuthorizationService.GetCurrentUserId();
+            var rooms = MemberRepository.FindBy(member => member.UserId == currentUserId)
+                .Select(member => member.Room);
+            return rooms;
         }
 
         public int GetCurrentUserId()

@@ -1,10 +1,24 @@
-﻿@if (ViewBag.Login != null)
-{
-    @:Hello, @ViewBag.Login
-    @Html.ActionLink("Logout", "Logout", "Account")
-}
-else
-{
-    @Html.ActionLink("Login", "Login", "Account") <br/>
-    @Html.ActionLink("Register", "Register", "Account")
-}
+﻿<div class="login-partial">
+    @if (ViewBag.Login != null)
+    {
+        @:Hello, @Ajax.ActionLink((string) ViewBag.Login, "RoomsPartial", "Room", null, new AjaxOptions
+                     {
+                         Url = Url.Action("RoomsPartial", "Room"),
+                         HttpMethod = "Post",
+                         OnSuccess = "refreshRooms"
+                     }, new {id = "load-rooms"})
+        @Html.ActionLink("Logout", "Logout", "Account")
+
+        <div id="user-room-list"></div>
+        <div id="room-pattern" style="display: none">
+            <div>
+                @Html.ActionLink("~title~", "Join", "Room", new {roomId = "~room-id~"}, null)
+            </div>
+        </div>
+    }
+    else
+    {
+        @Html.ActionLink("Login", "Login", "Account")<br/>
+        @Html.ActionLink("Register", "Register", "Account")
+    }
+</div>

@@ -80,5 +80,13 @@ namespace Chat.Controllers
             unitOfWork.Commit();
             return RedirectToAction("List");
         }
+
+        [HttpPost]
+        public JsonResult RoomsPartial()
+        {
+            var rooms = from room in unitOfWork.GetCurrentUserRooms()
+                        select new JsonRoom {Id = room.Id, Title = room.Title};
+            return Json(rooms);
+        }
     }
 }

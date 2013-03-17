@@ -162,7 +162,6 @@ namespace Chat.Tests.Tests.Infrastructure
             var mockRecordRepo = new Mock<IRepository<Record>>();
             mockRecordRepo.Setup(repo => repo.Add(It.IsAny<Record>()));
 
-
             var mockAuthService = new Mock<IAuthorizationService>();
             mockAuthService.Setup(service => service.GetCurrentUserId())
                            .Returns(42);
@@ -212,6 +211,39 @@ namespace Chat.Tests.Tests.Infrastructure
             Assert.AreEqual(1, records.Count());
             Assert.AreEqual(100500, records.First().RoomId);
             Assert.AreEqual("Sun", records.First().Text);
+        }
+
+        [TestMethod]
+        public void GetCurrentUserRoomsTest()
+        {
+            var mockAuthService = new Mock<IAuthorizationService>();
+            mockAuthService.Setup(service => service.GetCurrentUserId())
+                           .Returns(42);
+
+            var mockMemberRepo = new Mock<IRepository<Member>>();
+            mockMemberRepo.Setup(repo => repo.FindBy(It.IsAny<Expression<Func<Member, bool>>>(),
+                                                   It.IsAny<Expression<Func<Member, object>>[]>()))
+                        .Returns(new Collection<Member>
+                            {
+                                new Member{UserId = 42, Room = new Room {Id = 1, Title = "Amazing Room"}},
+                                new Member{UserId = 42, Room = new Room {Id = 2, Title = "Good Room"}}
+                            });
+
+            var unitOfTest = new RoomUnitOfWork
+                {
+                    MemberRepository = mockMemberRepo.Object,
+                    AuthorizationService = mockAuthService.Object
+                };
+
+            var rooms = unitOfTest.GetCurrentUserRooms();
+
+            mockAuthService.Verify(service => service.GetCurrentUserId(), Times.Once());
+            mockMemberRepo.Verify(
+                repo =>
+                repo.FindBy(It.IsAny<Expression<Func<Member, bool>>>(), It.IsAny<Expression<Func<Member, object>>[]>()),
+                Times.Once());
+            Assert.AreEqual(2, rooms.Count());
+            Assert.AreEqual(2, rooms.Last().Id);
         }
     }
 }
