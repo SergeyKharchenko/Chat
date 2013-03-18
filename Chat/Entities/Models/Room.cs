@@ -22,9 +22,9 @@ namespace Entities.Models
         [HiddenInput(DisplayValue = false)]
         public DateTime CreatorionDate { get; set; }
 
-        public virtual ICollection<Member> Members { get; set; }
+        public ICollection<Member> Members { get; set; }
 
-        public virtual ICollection<Record> Records { get; set; }
+        public ICollection<Record> Records { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         public DateTime LastActivity

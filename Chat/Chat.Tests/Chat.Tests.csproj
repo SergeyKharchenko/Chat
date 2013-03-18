@@ -113,6 +113,7 @@
     <Compile Include="Tests\RouteTests.cs" />
     <Compile Include="Tests\Infrastructure\RoomUnitOfWorkTests.cs" />
     <Compile Include="Tests\ViewModel\RoomInfoTests.cs" />
+    <Compile Include="Tests\ViewModel\JsonRoomTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />

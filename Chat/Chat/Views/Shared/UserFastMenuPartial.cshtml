@@ -1,0 +1,27 @@
+﻿<div class="user-fast-menu">
+    @if (ViewBag.Login != null)
+    {
+        @:Hello, @Ajax.ActionLink((string) ViewBag.Login, "RoomsPartial", "Room", null, new AjaxOptions
+                     {
+                         Url = Url.Action("RoomsPartial", "Room"),
+                         HttpMethod = "Post",
+                         OnSuccess = "refreshRooms"
+                     }, new {id = "load-rooms"})
+        @Html.ActionLink("Logout", "Logout", "Account")
+
+        <table id="rooms-table" style="display: none">
+            <tbody id="user-room-list" ></tbody>
+            <tfoot id="room-pattern" style="display: none">
+                <tr>
+                    <td>@Html.ActionLink("~title~", "Join", "Room", new {roomId = "~room-id~"}, null)</td>
+                    <td><img src="~/Image/ownership.png" alt="Owner"/></td>
+                </tr>
+            </tfoot>
+        </table>
+    }
+    else
+    {
+        @Html.ActionLink("Login", "Login", "Account")<br/>
+        @Html.ActionLink("Register", "Register", "Account")
+    }
+</div>

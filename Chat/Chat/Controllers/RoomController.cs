@@ -84,8 +84,9 @@ namespace Chat.Controllers
         [HttpPost]
         public JsonResult RoomsPartial()
         {
+            var currentUserId = unitOfWork.GetCurrentUserId();
             var rooms = from room in unitOfWork.GetCurrentUserRooms()
-                        select new JsonRoom {Id = room.Id, Title = room.Title};
+                        select new JsonRoom(room, currentUserId);
             return Json(rooms);
         }
     }

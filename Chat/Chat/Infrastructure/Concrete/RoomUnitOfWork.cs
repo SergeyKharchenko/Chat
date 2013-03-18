@@ -33,17 +33,19 @@ namespace Chat.Infrastructure.Concrete
 
         public Room FindRoomById(int id)
         {
-            return RoomRepository.FindById(id);
+            return RoomRepository.FindBy(room => room.Id == id,
+                                         room => room.Records, room => room.Members)
+                                 .Single();
         }
 
         public void CreateRoom(Room room)
         {
             room.CreatorionDate = DateTime.Now;
-            var currentUser = AuthorizationService.GetCurrentUser();
-            room.Creator = currentUser;
+            var currentUserId = AuthorizationService.GetCurrentUserId();
+            room.CreatorId = currentUserId;
             room.Members = new Collection<Member>
                 {
-                    new Member {User = currentUser, Room = room, EnterTime = DateTime.Now}
+                    new Member {UserId = currentUserId, Room = room, EnterTime = DateTime.Now}
                 };
             RoomRepository.Add(room);
         }
@@ -51,8 +53,8 @@ namespace Chat.Infrastructure.Concrete
         public Room JoinRoom(int id)
         {
             var userId = AuthorizationService.GetCurrentUserId();
-            var room = RoomRepository.FindBy(filterCriterion: r => r.Id == id,
-                                             includeCriterion: r => r.Records)
+            var room = RoomRepository.FindBy(r => r.Id == id,
+                                             r => r.Records, r => r.Members)
                                      .Single();
             if (!MemberRepository.Entities.Any(member => member.RoomId == room.Id && member.UserId == userId))
                 MemberRepository.Add(new Member

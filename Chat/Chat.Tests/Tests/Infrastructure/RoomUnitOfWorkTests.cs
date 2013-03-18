@@ -28,13 +28,16 @@ namespace Chat.Tests.Tests.Infrastructure
         [TestMethod]
         public void FindRoomByIdTest()
         {
-            var mock = new Mock<IRepository<Room>>();
-            mock.Setup(repo => repo.FindById(It.IsAny<int>()));
-            var unitOfWork = new RoomUnitOfWork { RoomRepository = mock.Object };
+            var mockRoomRepo = new Mock<IRepository<Room>>();
+            mockRoomRepo.Setup(repo => repo.FindBy(It.IsAny<Expression<Func<Room, bool>>>(),
+                                       It.IsAny<Expression<Func<Room, object>>[]>()))
+            .Returns(new Collection<Room> { new Room { Id = 100500 } });
+            var unitOfWork = new RoomUnitOfWork { RoomRepository = mockRoomRepo.Object };
 
             unitOfWork.FindRoomById(3);
 
-            mock.Verify(repo => repo.FindById(3));
+            mockRoomRepo.Verify(repo => repo.FindBy(It.IsAny<Expression<Func<Room, bool>>>(),
+                                                    It.IsAny<Expression<Func<Room, object>>[]>()));
         }
 
         [TestMethod]

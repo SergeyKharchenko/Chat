@@ -21,7 +21,7 @@ namespace Chat.Controllers
             this.authorizationService = authorizationService;
         }
 
-        public PartialViewResult LoginPartial()
+        public PartialViewResult UserFastMenuPartial()
         {
             if (WebSecurity.IsAuthenticated)
                 ViewBag.Login = User.Identity.Name;

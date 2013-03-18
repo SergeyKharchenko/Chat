@@ -10,13 +10,11 @@ namespace Chat.Tests.Tests.ViewModel
     [TestClass]
     public class RoomInfoTests
     {
-        private Room room;
-
         [TestMethod]
         public void RoomToRoomInfoConvertTest()
         {
             var creator = new User { Login = "John" };
-            room = new Room
+            var room = new Room
             {
                 Id = 42,
                 Title = "Amazing Room",

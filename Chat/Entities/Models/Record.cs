@@ -18,7 +18,7 @@ namespace Entities.Models
 
         [HiddenInput(DisplayValue = false)]
         public int RoomId { get; set; }
-        public Room Room { get; set; }
+        public virtual Room Room { get; set; }
 
         public override string ToString()
         {

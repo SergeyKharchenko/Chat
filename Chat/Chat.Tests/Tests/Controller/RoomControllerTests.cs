@@ -164,6 +164,7 @@ namespace Chat.Tests.Tests.Controller
         [TestMethod]
         public void RoomsPartialTest()
         {
+            mock.Setup(unit => unit.GetCurrentUserId());
             mock.Setup(unit => unit.GetCurrentUserRooms())
                 .Returns(new Collection<Room>
                     {
@@ -175,6 +176,7 @@ namespace Chat.Tests.Tests.Controller
             var rooms = jsonData.Data as IEnumerable<JsonRoom>;
 
             Assert.IsNotNull(rooms);
+            mock.Verify(unit => unit.GetCurrentUserId(), Times.Once());
             mock.Verify(unit => unit.GetCurrentUserRooms(), Times.Once());
             Assert.AreEqual(2, rooms.Count());
             Assert.AreEqual("Amazing Room", rooms.First().Title);

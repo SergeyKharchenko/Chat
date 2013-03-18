@@ -111,16 +111,14 @@ textarea {
 	right: 5px;
 }
 
-.login-partial {
+.user-fast-menu {
     text-align: right;
 }
 
-#user-room-list {
-    display: none;
-    margin: 10px 20px;
-    padding: 5px;
-    background-color: beige;
+#rooms-table {
     position: relative;
+    background-color: beige;
+    margin: 10px;
     z-index: 1;
 }
 
