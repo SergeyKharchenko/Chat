@@ -47,9 +47,8 @@ namespace Chat.Tests.Tests.Infrastructure
             mockRoomRepo.Setup(repo => repo.Add(It.IsAny<Room>()));
 
             var mockAuthService = new Mock<IAuthorizationService>();
-            var user = new User {Login = "Tom"};
-            mockAuthService.Setup(service => service.GetCurrentUser())
-                .Returns(user);
+            mockAuthService.Setup(service => service.GetCurrentUserId())
+                .Returns(42);
 
             var unitOfWork = new RoomUnitOfWork
                 {
@@ -60,10 +59,10 @@ namespace Chat.Tests.Tests.Infrastructure
             var room = new Room {Title = "Amazing room"};
             unitOfWork.CreateRoom(room);
 
-            mockAuthService.Verify(service => service.GetCurrentUser(), Times.Once());
-            Assert.AreSame(user, room.Creator);
+            mockAuthService.Verify(service => service.GetCurrentUserId(), Times.Once());
+            Assert.AreEqual(42, room.CreatorId);
             Assert.AreEqual(1, room.Members.Count);
-            Assert.AreSame(user, room.Members.First().User);
+            Assert.AreEqual(42, room.Members.First().UserId);
             Assert.AreSame(room, room.Members.First().Room);
             mockRoomRepo.Verify(repo => repo.Add(room), Times.Once());
         }
@@ -144,10 +143,30 @@ namespace Chat.Tests.Tests.Infrastructure
             mockAuthService.Setup(service => service.GetCurrentUserId())
                            .Returns(42);
 
+            var mockRoomRepo = new Mock<IRepository<Room>>();
+            var record = new Record();
+            var room = new Room
+                {
+                    Members = new Collection<Member>(),
+                    Records = new Collection<Record>
+                        {
+                            record
+                        }
+                };
+            mockRoomRepo.Setup(repo => repo.FindBy(It.IsAny<Expression<Func<Room, bool>>>(),
+                                                   It.IsAny<Expression<Func<Room, object>>[]>()))
+                        .Returns(new Collection<Room> {room});
+            mockRoomRepo.Setup(repo => repo.Remove(It.IsAny<Room>()));
+
+            var mockRecordRepo = new Mock<IRepository<Record>>();
+            mockRecordRepo.Setup(repo => repo.Remove(It.IsAny<Record>()));
+
             var unitOfWork = new RoomUnitOfWork
             {
                 MemberRepository = mockMemberRepo.Object,
-                AuthorizationService = mockAuthService.Object
+                AuthorizationService = mockAuthService.Object,
+                RoomRepository = mockRoomRepo.Object,
+                RecordRepository = mockRecordRepo.Object
             };
 
             unitOfWork.ExitRoom(100500);
@@ -157,6 +176,9 @@ namespace Chat.Tests.Tests.Infrastructure
             mockMemberRepo.Verify(
                 repo => repo.Remove(It.Is((Member member) => member.RoomId == 100500 && member.UserId == 42)),
                 Times.Once());
+
+            mockRoomRepo.Verify(repo => repo.Remove(room), Times.Once());
+            mockRecordRepo.Verify(repo => repo.Remove(record), Times.Once());
         }
 
         [TestMethod]

@@ -30,14 +30,29 @@ namespace Chat.Tests.Tests.Controller
         {
             mock.Setup(unit => unit.Rooms).Returns(new Collection<Room>
                 {
-                    new Room {Title = "Amazing Room"},
-                    new Room {Title = "Good Room"}
+                    new Room
+                        {
+                            Creator = new User(),
+                            Title = "Amazing Room",
+                            Members = new Collection<Member>(),
+                            Records = new Collection<Record>()
+                        },
+                    new Room
+                        {
+                            Creator = new User(),
+                            Title = "Good Room",
+                            Members = new Collection<Member>(),
+                            Records = new Collection<Record>()
+                        }
                 });
+            mock.Setup(unit => unit.GetCurrentUserId())
+                .Returns(2);
 
             var view = controller.List();
-            var rooms = view.Model as IEnumerable<Room>;
+            var rooms = view.Model as IEnumerable<RoomInfo>;
 
             Assert.IsNotNull(rooms);
+            mock.Verify(unit => unit.GetCurrentUserId(), Times.Once());
             mock.Verify(unit => unit.Rooms, Times.Once());
             Assert.AreEqual(2, rooms.Count());
             Assert.AreEqual("Good Room", rooms.Last().Title);
@@ -51,17 +66,20 @@ namespace Chat.Tests.Tests.Controller
                     {
                         Id = 42,
                         Creator = new User(),
+                        CreatorId = 2,
                         Records = new Collection<Record>(),
                         Members = new Collection<Member>()
                     });
+            mock.Setup(unit => unit.GetCurrentUserId())
+                .Returns(2);
 
             var view = controller.Info(42);
             var roomInfo = view.Model as RoomInfo;
 
             Assert.IsNotNull(roomInfo);
             mock.Verify(unit => unit.FindRoomById(42), Times.Once());
+            mock.Verify(unit => unit.GetCurrentUserId(), Times.Once());
             Assert.AreEqual(42, roomInfo.Id);
-
         }
 
         [TestMethod]

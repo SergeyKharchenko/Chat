@@ -14,16 +14,20 @@ namespace Chat.ViewModels
         public DateTime CreationDate { get; set; }
         public string[] MemberNames { get; set; }
         public Record[] Records { get; set; }
+        public bool IsCreator { get; set; }
 
-        public RoomInfo(Room room, int recordsToShowCount = 3)
+        public RoomInfo(Room room, int currentUserId, int recordsToShowCount = 3)
         {
             Id = room.Id;
             Title = room.Title;
             CreatorName = room.Creator.Login;
             CreationDate = room.CreatorionDate;
             LastActivity = room.LastActivity;
-            MemberNames = (from member in room.Members select member.User.Login).ToArray();
-            Records = room.Records.Reverse().Take(recordsToShowCount).Reverse().ToArray();
+            if (room.Members != null)
+                MemberNames = (from member in room.Members select member.User.Login).ToArray();
+            if (room.Records != null)
+                Records = room.Records.Reverse().Take(recordsToShowCount).Reverse().ToArray();
+            IsCreator = room.CreatorId == currentUserId;
         }
     }
 }

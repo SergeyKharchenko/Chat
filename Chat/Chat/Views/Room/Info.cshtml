@@ -44,5 +44,5 @@
 
 <div>
     @Html.ActionLink("Back to Room list", "List")<br/>
-    @Html.ActionLink("Join", "Join", new {roomId = Model.Id})
+    @Html.ActionLink(Model.IsCreator ? "Enter" : "Join", "Join", new {roomId = Model.Id})
 </div>

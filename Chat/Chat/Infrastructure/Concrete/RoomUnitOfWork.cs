@@ -34,7 +34,7 @@ namespace Chat.Infrastructure.Concrete
         public Room FindRoomById(int id)
         {
             return RoomRepository.FindBy(room => room.Id == id,
-                                         room => room.Records, room => room.Members)
+                                         room => room.Members, room => room.Records)
                                  .Single();
         }
 
@@ -71,6 +71,14 @@ namespace Chat.Infrastructure.Concrete
             var userId = AuthorizationService.GetCurrentUserId();
             var member = MemberRepository.Entities.FirstOrDefault(m => m.RoomId == id && m.UserId == userId);
             MemberRepository.Remove(member);
+            Commit();
+            var room = FindRoomById(id);
+            if (room.Members.Count == 0)
+            {
+                for (var i = room.Records.Count - 1; i >= 0; i--)
+                    RecordRepository.Remove(room.Records.ElementAt(i));
+                RoomRepository.Remove(room);
+            }
         }
 
         public void AddRecord(int roomId, string recordText)

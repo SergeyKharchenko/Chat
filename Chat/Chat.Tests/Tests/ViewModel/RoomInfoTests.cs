@@ -19,6 +19,7 @@ namespace Chat.Tests.Tests.ViewModel
                 Id = 42,
                 Title = "Amazing Room",
                 Creator = creator,
+                CreatorId = 1,
                 CreatorionDate = DateTime.MaxValue,
                 Records = new Collection<Record>
                         {
@@ -32,7 +33,7 @@ namespace Chat.Tests.Tests.ViewModel
                         }
             };
 
-            var roomInfo = new RoomInfo(room, 2);
+            var roomInfo = new RoomInfo(room, 1, 2);
 
             Assert.AreEqual(42, roomInfo.Id);
             Assert.AreEqual("Amazing Room", roomInfo.Title);
@@ -42,6 +43,10 @@ namespace Chat.Tests.Tests.ViewModel
             Assert.AreEqual("John", roomInfo.MemberNames.First());
             Assert.AreEqual(2, roomInfo.Records.Count());
             Assert.AreEqual("World", roomInfo.Records.First().Text);
+            Assert.IsTrue(roomInfo.IsCreator);
+
+            roomInfo = new RoomInfo(room, 2);
+            Assert.IsFalse(roomInfo.IsCreator);
         }
     }
 }

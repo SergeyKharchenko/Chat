@@ -18,16 +18,19 @@ namespace Chat.Controllers
             this.unitOfWork = unitOfWork;
         }
 
-        [AllowAnonymous]
         public ViewResult List()
         {
-            return View(unitOfWork.Rooms);
+            var currentUserId = unitOfWork.GetCurrentUserId();
+            var roomInfos = from room in unitOfWork.Rooms
+                            select new RoomInfo(room, currentUserId);
+            return View(roomInfos);
         }
         
         public ViewResult Info(int roomId)
         {
             var room = unitOfWork.FindRoomById(roomId);
-            var roomInfo = new RoomInfo(room);
+            var currentUserId = unitOfWork.GetCurrentUserId();
+            var roomInfo = new RoomInfo(room, currentUserId);
             return View(roomInfo);
         }
 
