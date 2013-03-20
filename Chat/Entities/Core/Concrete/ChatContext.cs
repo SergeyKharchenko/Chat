@@ -17,6 +17,7 @@ namespace Entities.Core.Concrete
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Record> Records { get; set; }
         public DbSet<Member> Members { get; set; }
+        public DbSet<Image> Images { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -46,6 +47,16 @@ namespace Entities.Core.Concrete
                         .HasRequired(member => member.Room)
                         .WithMany(user => user.Members)
                         .HasForeignKey(member => member.RoomId);
+
+            modelBuilder.Entity<Image>()
+                        .HasRequired(image => image.User)
+                        .WithOptional(user => user.Image)
+                        .Map(configuration => configuration.MapKey("UserId"));
+
+            //modelBuilder.Entity<User>()
+            //            .HasOptional(user => user.Image)
+            //            .WithRequired(image => image.User)
+            //            .Map(configuration => configuration.MapKey("ImageId"));
         }
     }
 }

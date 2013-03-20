@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Core\Abstract\IChatContext.cs" />
     <Compile Include="Models\Entity.cs" />
+    <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Member.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Core\Concrete\ChatContext.cs" />

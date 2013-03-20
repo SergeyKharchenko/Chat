@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -7,6 +8,7 @@ using System.Web.Security;
 using Chat.Filters;
 using Chat.Infrastructure.Abstract;
 using Chat.ViewModels;
+using Entities.Models;
 using WebMatrix.WebData;
 
 namespace Chat.Controllers
@@ -36,7 +38,7 @@ namespace Chat.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Register(UserRegistration userRegistration)
+        public ActionResult Register(UserRegistration userRegistration, HttpPostedFileBase avatar)
         {
             if (ModelState.IsValid)
             {
@@ -44,6 +46,22 @@ namespace Chat.Controllers
                 {
                     authorizationService.Register(userRegistration.Login, userRegistration.Password);
                     authorizationService.Login(userRegistration.Login, userRegistration.Password);
+
+                    if (avatar != null)
+                    {
+                        var currentUser = authorizationService.GetCurrentUser();
+                        var image = new Image { ImageMimeType = avatar.ContentType, User = currentUser};
+                        authorizationService.SaveImage(image);
+                        authorizationService.Commit();
+
+                        var fileName = Path.Combine("~/Image/",
+                                                      String.Concat(image.Id, Path.GetExtension(avatar.FileName)));
+                        var filePath = Server.MapPath(image.FileName);
+                        avatar.SaveAs(filePath);
+
+                        image.FileName = fileName.Substring(1);
+                        authorizationService.Commit();
+                    }
                     return RedirectToAction("List", "Room");
                 }
                 catch (MembershipCreateUserException)

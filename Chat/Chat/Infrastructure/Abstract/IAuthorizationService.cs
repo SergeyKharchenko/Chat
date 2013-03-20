@@ -10,5 +10,9 @@ namespace Chat.Infrastructure.Abstract
 
         User GetCurrentUser();
         int GetCurrentUserId();
+
+        void SaveImage(Image image);
+
+        void Commit();
     }
 }

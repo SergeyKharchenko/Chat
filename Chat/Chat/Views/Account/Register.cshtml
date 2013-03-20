@@ -6,12 +6,16 @@
 
 <h2>Register</h2>
 
-@using(@Html.BeginForm()){
+<img src="~/Image/1.png"/>
 
+@using (@Html.BeginForm("Register", "Account", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     @Html.EditorForModel()
+    
+    <div>Upload new avatar: <input type="file" name="avatar" /></div>
 
     <input type="submit" value="Register"/>
 }

@@ -4,6 +4,7 @@ using Chat.Infrastructure.Abstract;
 using Entities.Core.Concrete;
 using Entities.Models;
 using WebMatrix.WebData;
+using System.Linq;
 
 namespace Chat.Infrastructure.Concrete
 {
@@ -33,14 +34,26 @@ namespace Chat.Infrastructure.Concrete
 
         public User GetCurrentUser()
         {
-            var user = context.Users.Find(WebSecurity.CurrentUserId);
-            context.Entry(user).State = EntityState.Detached;
+            var userdId = WebSecurity.CurrentUserId;
+            if (userdId == -1)
+                userdId = context.Users.Max(u => u.Id);
+            var user = context.Users.Find(userdId);
             return user;
         }
 
         public int GetCurrentUserId()
         {
             return WebSecurity.CurrentUserId;
+        }
+
+        public void SaveImage(Image image)
+        {
+            context.Images.Add(image);
+        }
+
+        public void Commit()
+        {
+            context.SaveChanges();
         }
     }
 }

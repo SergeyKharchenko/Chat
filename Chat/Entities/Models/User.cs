@@ -14,5 +14,7 @@ namespace Entities.Models
         public ICollection<Record> Records { get; set; }
 
         public virtual ICollection<Member> Members { get; set; }
+
+        public virtual Image Image { get; set; }
     }
 }

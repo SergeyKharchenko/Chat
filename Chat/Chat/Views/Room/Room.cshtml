@@ -19,7 +19,13 @@
     <div id="user-list">
         @foreach (var member in Model.Members)
         {
-            <div>@member.User.Login</div>
+            <div>
+                @if (member.User.Image != null)
+                {
+                    <img src="@member.User.Image.FileName" width="24" height="24" alt="@member.User.Login"/>
+                }
+                @member.User.Login
+            </div>
         }
     </div>
 </div>
