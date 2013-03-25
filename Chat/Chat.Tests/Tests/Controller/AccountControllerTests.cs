@@ -17,7 +17,7 @@ namespace Chat.Tests.Tests.Controller
             var mock = new Mock<IAuthorizationService>();
             var accountController = new AccountController(mock.Object);
 
-            var view = accountController.Register(new UserRegistration { Login = "John", Password = "pass" });
+            var view = accountController.Register(new UserRegistration { Login = "John", Password = "pass" }, null);
 
             mock.Verify(service => service.Register("John", "pass"), Times.Once());
             mock.Verify(service => service.Login("John", "pass"), Times.Once());
@@ -30,8 +30,8 @@ namespace Chat.Tests.Tests.Controller
             var mock = new Mock<IAuthorizationService>();
             mock.Setup(service => service.Register("John", "pass")).Throws(new MembershipCreateUserException());            
             var accountController = new AccountController(mock.Object);
-            
-            var view = accountController.Register(new UserRegistration {Login = "John", Password = "pass"});
+
+            var view = accountController.Register(new UserRegistration { Login = "John", Password = "pass" }, null);
 
             mock.Verify(service => service.Login("John", "pass"), Times.Never());
             Assert.IsInstanceOfType(view, typeof(ViewResult));
