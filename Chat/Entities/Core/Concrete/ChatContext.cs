@@ -6,7 +6,6 @@ namespace Entities.Core.Concrete
 {
     public class ChatContext : DbContext
     {
-
         public ChatContext()
             : base("ChatContext")
         {
@@ -52,11 +51,6 @@ namespace Entities.Core.Concrete
                         .HasRequired(image => image.User)
                         .WithOptional(user => user.Image)
                         .Map(configuration => configuration.MapKey("UserId"));
-
-            //modelBuilder.Entity<User>()
-            //            .HasOptional(user => user.Image)
-            //            .WithRequired(image => image.User)
-            //            .Map(configuration => configuration.MapKey("ImageId"));
         }
     }
 }
