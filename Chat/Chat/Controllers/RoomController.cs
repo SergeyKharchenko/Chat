@@ -16,6 +16,7 @@ namespace Chat.Controllers
         public RoomController(IRoomUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
+
         }
 
         public ViewResult List()
