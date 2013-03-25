@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Web.Mvc;
 using Chat.Infrastructure.Abstract;
+using Chat.Models;
 using Ninject;
 
 namespace Chat.Infrastructure.Concrete

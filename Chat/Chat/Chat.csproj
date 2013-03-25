@@ -168,7 +168,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="ChatContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\RoomController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -184,6 +183,7 @@
     <Compile Include="Infrastructure\Concrete\NinjectDependencyResolver.cs" />
     <Compile Include="Infrastructure\Concrete\RoomUnitOfWork.cs" />
     <Compile Include="Infrastructure\Concrete\WebSecurityAuthorizationService.cs" />
+    <Compile Include="Models\ChatContext.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Image.cs" />
     <Compile Include="Models\Member.cs" />

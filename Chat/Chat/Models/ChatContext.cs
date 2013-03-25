@@ -1,8 +1,7 @@
-﻿using System.Data.Entity;
+using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using Chat.Models;
 
-namespace Chat
+namespace Chat.Models
 {
     public class ChatContext : DbContext
     {
