@@ -10,7 +10,6 @@ using System.Web.Routing;
 using Chat.Filters;
 using Chat.Infrastructure.Concrete;
 using Entities;
-using Entities.Core.Concrete;
 
 namespace Chat
 {

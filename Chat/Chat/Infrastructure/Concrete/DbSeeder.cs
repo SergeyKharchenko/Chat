@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using Chat.Filters;
-using Entities.Core.Concrete;
 using Entities.Models;
 using WebMatrix.WebData;
 using System.Linq;
