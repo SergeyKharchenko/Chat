@@ -20,9 +20,11 @@ namespace Chat
         {
             DependencyResolver.SetResolver(new NinjectDependencyResolver());
 
+            /*
             Database.SetInitializer(new DbSeeder());
             var context = new ChatContext();
             context.Database.Initialize(true);
+             */
 
             AreaRegistration.RegisterAllAreas();
 
