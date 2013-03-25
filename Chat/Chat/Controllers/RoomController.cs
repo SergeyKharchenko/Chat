@@ -21,9 +21,9 @@ namespace Chat.Controllers
 
         public ViewResult List()
         {
-            var currentUserId = unitOfWork.GetCurrentUserId();
+            //var currentUserId = unitOfWork.GetCurrentUserId();
             var roomInfos = from room in unitOfWork.Rooms
-                            select new RoomInfo(room, currentUserId);
+                            select new RoomInfo(room, 1);
             return View(roomInfos);
         }
         
