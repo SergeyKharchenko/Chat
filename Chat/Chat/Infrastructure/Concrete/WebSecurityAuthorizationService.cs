@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using System.Data.Objects;
 using Chat.Infrastructure.Abstract;
-using Entities.Models;
+using Chat.Models;
 using WebMatrix.WebData;
 using System.Linq;
 

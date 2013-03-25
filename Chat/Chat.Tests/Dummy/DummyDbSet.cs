@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
-using Entities.Models;
+using Chat.Models;
 
 namespace Chat.Tests.Dummy
 {

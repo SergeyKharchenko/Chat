@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Entities.Models;
+using Chat.Models;
 
 namespace Chat.Infrastructure.Abstract
 {

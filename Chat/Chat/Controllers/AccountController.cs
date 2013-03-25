@@ -7,8 +7,8 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Chat.Filters;
 using Chat.Infrastructure.Abstract;
+using Chat.Models;
 using Chat.ViewModels;
-using Entities.Models;
 using WebMatrix.WebData;
 
 namespace Chat.Controllers

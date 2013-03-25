@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Chat.Models;
 using Chat.ViewModels;
-using Entities.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Chat.Tests.Tests.ViewModel

@@ -1,4 +1,4 @@
-﻿using Entities.Models;
+﻿using Chat.Models;
 
 namespace Chat.ViewModels
 {

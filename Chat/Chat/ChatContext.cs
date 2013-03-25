@@ -1,6 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using Entities.Models;
+using Chat.Models;
 
 namespace Chat
 {

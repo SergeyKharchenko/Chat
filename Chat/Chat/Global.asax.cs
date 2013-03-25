@@ -9,7 +9,6 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Chat.Filters;
 using Chat.Infrastructure.Concrete;
-using Entities;
 
 namespace Chat
 {

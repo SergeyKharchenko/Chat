@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using Entities.Models;
+using Chat.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Chat.Tests.Tests.Model

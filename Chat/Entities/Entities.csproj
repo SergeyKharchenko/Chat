@@ -47,13 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Abstract\IChatContext.cs" />
-    <Compile Include="Models\Entity.cs" />
-    <Compile Include="Models\Image.cs" />
-    <Compile Include="Models\Member.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="Models\Room.cs" />
-    <Compile Include="Models\Record.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +54,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Core\Abstract\" />
     <Folder Include="Core\Concrete\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

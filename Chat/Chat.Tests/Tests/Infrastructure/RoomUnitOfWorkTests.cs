@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using Chat.Infrastructure.Abstract;
 using Chat.Infrastructure.Concrete;
-using Entities.Models;
+using Chat.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Linq;

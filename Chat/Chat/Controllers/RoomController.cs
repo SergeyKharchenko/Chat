@@ -2,8 +2,8 @@
 using System.Web.Mvc;
 using Chat.Filters;
 using Chat.Infrastructure.Abstract;
+using Chat.Models;
 using Chat.ViewModels;
-using Entities.Models;
 
 namespace Chat.Controllers
 {

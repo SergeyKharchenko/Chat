@@ -5,7 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using Chat.Infrastructure.Abstract;
-using Entities.Models;
+using Chat.Models;
 
 namespace Chat.Infrastructure.Concrete
 {

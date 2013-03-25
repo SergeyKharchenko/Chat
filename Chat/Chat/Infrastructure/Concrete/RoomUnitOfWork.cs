@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Chat.Infrastructure.Abstract;
-using Entities.Models;
+using Chat.Models;
 
 namespace Chat.Infrastructure.Concrete
 {

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Entities.Models;
+using Chat.Models;
 
 namespace Chat.Infrastructure.Abstract
 {

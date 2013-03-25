@@ -1,7 +1,7 @@
 ﻿using System;
 using Chat.Infrastructure.Concrete;
+using Chat.Models;
 using Chat.Tests.Dummy;
-using Entities.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
