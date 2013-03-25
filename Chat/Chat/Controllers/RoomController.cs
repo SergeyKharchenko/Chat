@@ -7,8 +7,8 @@ using Entities.Models;
 
 namespace Chat.Controllers
 {
-    [Authorize]
-    [InitializeSimpleMembership]
+    //[Authorize]
+    //[InitializeSimpleMembership]
     public class RoomController : Controller
     {
         private readonly IRoomUnitOfWork unitOfWork;
